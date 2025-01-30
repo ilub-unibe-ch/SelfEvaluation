@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ilub\plugin\SelfEvaluation\UIHelper;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use ilSubEnabledFormPropertyGUI;
 use ilRepositoryObjectPlugin;
 use ilTemplate;
@@ -11,6 +13,8 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
 {
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
     /**
      * @var string
      */
@@ -30,10 +34,13 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function __construct(ilRepositoryObjectPlugin $plugin, $a_title = '', $a_postvar = '')
     {
+        global $DIC;
         parent::__construct($a_title, $a_postvar);
         $this->setType('matrix_field');
 
         $this->plugin = $plugin;
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
     }
 
     public function getHtml(): string
@@ -77,8 +84,8 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
         }
         try {
             list($matrix_key, $question_key) = explode("[", str_replace("]", "", $this->getPostVar()));
+        } catch(\Exception $e) {
         }
-        catch(\Exception $e){}
 
         if(array_key_exists($matrix_key, $values)) {
             $meta_question_values = $values[$matrix_key];
@@ -151,4 +158,24 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
         }
         return true;
     }
+
+    public function getAlert(): string
+    {
+        $alert_text = parent::getAlert();
+
+        if ($alert_text !== '') {
+            // prepend alert icon
+            return $this->ui_renderer->render(
+                $this->ui_factory->symbol()->icon()->custom(
+                    \ilUtil::getImagePath("icon_alert.svg"),
+                    $this->lng->txt('alert'),
+                    'medium'
+                )
+            )
+                . $alert_text;
+        }
+
+        return $alert_text;
+    }
+
 }
