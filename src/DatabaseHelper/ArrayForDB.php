@@ -59,6 +59,8 @@ trait ArrayForDB
     public function fromArray(array $array): self
     {
         foreach ($array as $k => $v) {
+            /** @noinspection UnserializeExploitsInspection */
+            /** @noinspection UnserializeExploitsInspection */
             $serialized = unserialize($v);
             $this->{$k} = is_array($serialized) ? $serialized : $v;
         }
@@ -83,6 +85,8 @@ trait ArrayForDB
         //Problematisch
         foreach (array_keys($data->getArrayForDb()) as $k) {
             try {
+                /** @noinspection UnserializeExploitsInspection */
+                /** @noinspection UnserializeExploitsInspection */
                 $serialized = unserialize((string) $rec->{$k});
             } catch (\ErrorException) {
                 $serialized = "false";
@@ -123,6 +127,8 @@ trait ArrayForDB
 
     public function unserialize($serialized): self
     {
+        /** @noinspection UnserializeExploitsInspection */
+        /** @noinspection UnserializeExploitsInspection */
         return $this->fromArray(unserialize($serialized));
     }
 }

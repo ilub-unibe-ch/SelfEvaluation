@@ -114,7 +114,7 @@ class MetaTypeMatrix extends MetaQuestionType
         string $title,
         string $postvar,
         array $values
-    ): array {
+    ): \ilFormPropertyGUI|array {
         $scale_values = self::getScaleFromArray($values);
         $question_values = self::getQuestionsFromArray($values);
 

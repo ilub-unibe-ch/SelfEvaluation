@@ -205,6 +205,7 @@ abstract class Block implements hasDBFields, BlockType
         global $DIC;
 
         $this->db = $DIC->database();
+        /** @noinspection UnserializeExploitsInspection */
         return $this->fromArray(unserialize($serialized));
     }
 }

@@ -114,11 +114,12 @@ class ScaleFormGUI extends ilPropertyFormGUI
             $old = $this->getArrayFromPostComplex(self::FIELD_NAME . '_old');
             if (is_array($old['value'])) {
                 foreach ($old['value'] as $k => $v) {
-                    $obj = new ScaleUnit($this->db, str_replace('id_', '', (string) $k));
+                    $id = (int) str_replace('id_', '', (string) $k);
+                    $obj = new ScaleUnit($this->db, $id);
                     if ($v !== false && $v !== null && $v !== '') {
                         $obj->setTitle($old['title'][$k]);
                         $obj->setValue((int) $v);
-                        $obj->setPosition((int) $positions[str_replace('id_', '', (string) $k)]);
+                        $obj->setPosition((int) $positions[$id]);
                         $obj->update();
                     } else {
                         $obj->delete();

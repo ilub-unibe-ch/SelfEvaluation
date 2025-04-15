@@ -48,7 +48,7 @@ class BarChart extends ilChartGrid
             $a_options->{"grid"}->{"markings"}[0]->{"yaxis"} = new stdClass();
             $a_options->{"grid"}->{"markings"}[0]->{"yaxis"}->from = $this->getAverage();
             $a_options->{"grid"}->{"markings"}[0]->{"yaxis"}->to = $this->getAverage();
-            $a_options->{"grid"}->{"markings"}[0]->{"color"} = new stdClass();
+            // $a_options->{"grid"}->{"markings"}[0]->{"color"} = new stdClass(); // probably not needed
             $a_options->{"grid"}->{"markings"}[0]->{"color"} = "#333333";
         }
 
@@ -65,7 +65,7 @@ class BarChart extends ilChartGrid
                 $a_options->{"grid"}->{"markings"}[$x]->{"xaxis"}->from = $x + 1;
                 $a_options->{"grid"}->{"markings"}[$x]->{"xaxis"}->to = $x + 1;
 
-                $a_options->{"grid"}->{"markings"}[$x]->{"color"} = new stdClass();
+                // $a_options->{"grid"}->{"markings"}[$x]->{"color"} = new stdClass(); // probably not needed
                 $a_options->{"grid"}->{"markings"}[$x]->{"color"} = "#333333";
                 $x++;
             }

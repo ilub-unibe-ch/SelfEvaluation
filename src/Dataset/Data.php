@@ -191,6 +191,7 @@ class Data implements hasDBFields
     public function getValue()
     {
         try {
+            /** @noinspection UnserializeExploitsInspection */
             $unserialized = @unserialize($this->value);
         } catch (\Error) {
             $unserialized = false;

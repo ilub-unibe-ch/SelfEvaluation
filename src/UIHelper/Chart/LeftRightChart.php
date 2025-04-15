@@ -46,7 +46,7 @@ class LeftRightChart extends ilChartGrid
         $middle = (min($x_tick_key) + max($x_tick_key)) / 2;
         $a_options->{"grid"}->{"markings"}[0]->{"xaxis"}->from = $middle;
         $a_options->{"grid"}->{"markings"}[0]->{"xaxis"}->to = $middle;
-        $a_options->{"grid"}->{"markings"}[0]->{"color"} = new stdClass();
+        // $a_options->{"grid"}->{"markings"}[0]->{"color"} = new stdClass(); // probably not needed
         $a_options->{"grid"}->{"markings"}[0]->{"color"} = "#333333";
     }
 }

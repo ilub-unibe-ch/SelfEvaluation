@@ -76,6 +76,7 @@ class BlockTableGUI extends ilTable2GUI
         /**
          * @var BlockTableAction[] $actions
          */
+        /** @noinspection UnserializeExploitsInspection */
         $actions = unserialize($a_set['actions']);
 
         usort($actions, function (BlockTableAction $action_a, BlockTableAction $action_b): int {

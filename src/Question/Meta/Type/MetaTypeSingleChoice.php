@@ -27,7 +27,7 @@ class MetaTypeSingleChoice extends MetaTypeSelect
         string $title,
         string $postvar,
         array $values
-    ): ilRadioGroupInputGUI {
+    ): \ilFormPropertyGUI|array {
         $select = new ilRadioGroupInputGUI($title, $postvar);
 
         foreach ($values as $key => $value) {

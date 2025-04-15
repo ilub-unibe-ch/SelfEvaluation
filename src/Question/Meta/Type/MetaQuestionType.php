@@ -27,7 +27,7 @@ abstract class MetaQuestionType implements \Stringable
         string $title,
         string $postvar,
         array $values
-    );
+    ):\ilFormPropertyGUI|array;
 
     public function __toString(): string
     {

@@ -55,6 +55,7 @@ class MetaQuestion extends BaseQuestion
         $question->setName((string) $attributes["name"]);
         $question->setShortTitle((string) $attributes["shortTitle"]);
         $question->setTypeId((int) $attributes["typeId"]);
+        /** @noinspection UnserializeExploitsInspection */
         $question->setValues(unserialize((string) $attributes["values"]));
         $question->enableRequired($attributes["enableRequired"] == "1" ? 1 : 0);
         $question->setPosition((int) $attributes["position"]);
@@ -131,6 +132,7 @@ class MetaQuestion extends BaseQuestion
             $question->setName((string) $rec->name);
             $question->setShortTitle((string) $rec->short_title);
             $question->setTypeId((int) $rec->type_id);
+            /** @noinspection UnserializeExploitsInspection */
             $question->setValues((array) unserialize($rec->values));
             $question->enableRequired((int) $rec->required);
             $question->setPosition((int) $rec->position);

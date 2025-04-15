@@ -41,7 +41,7 @@ class MetaTypeText extends MetaQuestionType
         string $title,
         string $postvar,
         array $values
-    ): ilTextInputGUI {
+    ): \ilFormPropertyGUI|array {
         $text = new ilTextInputGUI($title, $postvar);
         $text->setSize(32);
         $text->setMaxLength(255);

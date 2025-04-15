@@ -55,7 +55,7 @@ class MetaTypeSelect extends MetaQuestionType
         string $title,
         string $postvar,
         array $values
-    ): \ilSelectInputGUI {
+    ): \ilFormPropertyGUI|array {
         $select = new ilSelectInputGUI($title, $postvar);
 
         $options = [null => $plugin->txt('select_one')];
