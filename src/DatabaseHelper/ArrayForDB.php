@@ -61,11 +61,7 @@ trait ArrayForDB
         foreach ($array as $k => $v) {
 
             $serialized = unserialize($v);
-            if (is_array($serialized)) {
-                $this->{$k} = $serialized;
-            } else {
-                $this->{$k} = $v;
-            }
+            $this->{$k} = is_array($serialized) ? $serialized : $v;
         }
         return $this;
     }
@@ -80,13 +76,16 @@ trait ArrayForDB
         return ['db'];
     }
 
-    protected function setObjectValuesFromRecord(hasDBFields $data, stdClass $rec): static
+    /**
+     * @return static
+     */
+    protected function setObjectValuesFromRecord(hasDBFields $data, stdClass $rec)
     {
         //Problematisch
-        foreach ($data->getArrayForDb() as $k => $v) {
+        foreach (array_keys($data->getArrayForDb()) as $k) {
             try {
                 $serialized = unserialize((string) $rec->{$k});
-            } catch (\ErrorException) {
+            } catch (\ErrorException $exception) {
                 $serialized = "false";
             }
             if (is_array($serialized)) {

@@ -14,11 +14,9 @@ abstract class MetaQuestionType
     abstract public function getTypeName(): string;
 
     /**
-     * @param ilSelfEvaluationPlugin $plugin
-     * @param MetaTypeOption         $option
      * @return self
      */
-    abstract public function getValueDefinitionInputGUI(ilSelfEvaluationPlugin $plugin, MetaTypeOption $option): mixed;
+    abstract public function getValueDefinitionInputGUI(ilSelfEvaluationPlugin $plugin, MetaTypeOption $option);
 
     abstract public function setValues(MetaTypeOption $item, array $values = []);
 

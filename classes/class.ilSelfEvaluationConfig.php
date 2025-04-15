@@ -15,7 +15,7 @@ class ilSelfEvaluationConfig
         $this->table_name = $table_name;
     }
 
-    public function setTableName(string $table_name)
+    public function setTableName(string $table_name): void
     {
         $this->table_name = $table_name;
     }
@@ -25,22 +25,23 @@ class ilSelfEvaluationConfig
         return $this->table_name;
     }
 
-    public function __call(string $method, array $params): string|bool|null
+    /**
+     * @return bool|string|null
+     */
+    public function __call(string $method, array $params)
     {
-        if (substr($method, 0, 3) == 'get') {
+        if (substr($method, 0, 3) === 'get') {
             return $this->getValue(self::_fromCamelCase(substr($method, 3)));
-        } else {
-            if (substr($method, 0, 3) == 'set') {
-                $this->setValue(self::_fromCamelCase(substr($method, 3)), $params[0]);
-
-                return true;
-            } else {
-                return null;
-            }
         }
+        if (substr($method, 0, 3) === 'set') {
+            $this->setValue(self::_fromCamelCase(substr($method, 3)), $params[0]);
+
+            return true;
+        }
+        return null;
     }
 
-    public function setValue(string $key, string $value)
+    public function setValue(string $key, string $value): void
     {
         if (!is_string($this->getValue($key))) {
             $this->db->insert($this->getTableName(), [
@@ -84,14 +85,16 @@ class ilSelfEvaluationConfig
         return (string) $record['config_value'];
     }
 
-    public function getContainer(): bool|int|string
+    /**
+     * @return bool|int|string
+     */
+    public function getContainer()
     {
         $key = $this->getValue('container');
-        if ($key == '' or $key == 0) {
+        if ($key == '' || $key == 0) {
             return 1;
-        } else {
-            return $key;
         }
+        return $key;
     }
 
     public function initDB(): bool
@@ -121,9 +124,7 @@ class ilSelfEvaluationConfig
 
         return preg_replace_callback(
             '/([A-Z])/',
-            function ($c) {
-                return "_" . strtolower($c[1]);
-            },
+            fn($c): string => "_" . strtolower($c[1]),
             $str
         );
     }
@@ -136,9 +137,7 @@ class ilSelfEvaluationConfig
 
         return preg_replace_callback(
             '/-([a-z])/',
-            function ($c) {
-                return strtoupper($c[1]);
-            },
+            fn($c) => strtoupper($c[1]),
             $str
         );
     }

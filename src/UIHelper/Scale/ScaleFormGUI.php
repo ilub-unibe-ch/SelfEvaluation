@@ -61,9 +61,6 @@ class ScaleFormGUI extends ilPropertyFormGUI
         $this->fillForm();
     }
 
-    /**
-     * @return array
-     */
     public function fillForm(): array
     {
         $array = [];
@@ -90,29 +87,25 @@ class ScaleFormGUI extends ilPropertyFormGUI
         return $form_gui;
     }
 
-    public function updateObject()
+    public function updateObject(): void
     {
         $positions = [];
 
         $this->scale->update();
-        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_new')) {
-            if (!is_array($this->http->wrapper()->post()->retrieve(
-                self::FIELD_NAME . '_new',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()))
-            ))) {
-                return;
-            }
+        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_new') && !is_array($this->http->wrapper()->post()->retrieve(
+            self::FIELD_NAME . '_new',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()))
+        ))) {
+            return;
         }
-        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_position')) {
-            if (is_array($this->getArrayFromPost(self::FIELD_NAME . '_position'))) {
-                $positions = array_flip($this->getArrayFromPost(self::FIELD_NAME . '_position'));
-            }
+        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_position') && is_array($this->getArrayFromPost(self::FIELD_NAME . '_position'))) {
+            $positions = array_flip($this->getArrayFromPost(self::FIELD_NAME . '_position'));
         }
 
         $new = $this->getArrayFromPostComplex(self::FIELD_NAME . '_new');
         if (!is_null($new) && is_array($new['value'])) {
             foreach ($new['value'] as $k => $v) {
-                if ($v !== false and $v !== null and $v !== '') {
+                if ($v !== false && $v !== null && $v !== '') {
                     $obj = new ScaleUnit($this->db);
                     $obj->setParentId($this->scale->getId());
                     $obj->setTitle($new['title'][$k]);
@@ -127,10 +120,10 @@ class ScaleFormGUI extends ilPropertyFormGUI
             if (is_array($old['value'])) {
                 foreach ($old['value'] as $k => $v) {
                     $obj = new ScaleUnit($this->db, str_replace('id_', '', (string) $k));
-                    if ($v !== false and $v !== null and $v !== '') {
+                    if ($v !== false && $v !== null && $v !== '') {
                         $obj->setTitle($old['title'][$k]);
                         $obj->setValue((int) $v);
-                        $obj->setPosition((int)$positions[str_replace('id_', '', (string)$k)]);
+                        $obj->setPosition((int) $positions[str_replace('id_', '', (string) $k)]);
                         $obj->update();
                     } else {
                         $obj->delete();
@@ -147,7 +140,7 @@ class ScaleFormGUI extends ilPropertyFormGUI
                 $string,
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
             return null;
         }
 
@@ -160,7 +153,7 @@ class ScaleFormGUI extends ilPropertyFormGUI
                 $string,
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string()))
             );
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
             return null;
         }
     }

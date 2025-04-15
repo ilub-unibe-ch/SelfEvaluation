@@ -33,19 +33,17 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         if ($this->getDisabled()) {
             $this->setInfo($this->plugin->txt('locked'));
         }
-        if (count($this->getValues()) > 0) {
-            foreach ($this->getValues() as $id => $value) {
-                $tpl->setCurrentBlock('input');
-                $tpl->setVariable('VALUE_N', $this->getFieldName() . '_old[value][' . $id . ']');
-                $tpl->setVariable('VALUE_V', $value['value']);
-                $tpl->setVariable('TITLE_N', $this->getFieldName() . '_old[title][' . $id . ']');
-                $tpl->setVariable('TITLE_V', $value['title']);
-                $tpl->setVariable('DISABLED', $this->getDisabled() ? 'disabled' : '');
-                $tpl->setVariable('POSTVAR', $this->getPostVar());
-                $tpl->setVariable('LOCK_CSS', $this->getDisabled() ? 'locked' : '');
-                $tpl->setVariable('ID', $id);
-                $tpl->parseCurrentBlock();
-            }
+        foreach ($this->getValues() as $id => $value) {
+            $tpl->setCurrentBlock('input');
+            $tpl->setVariable('VALUE_N', $this->getFieldName() . '_old[value][' . $id . ']');
+            $tpl->setVariable('VALUE_V', $value['value']);
+            $tpl->setVariable('TITLE_N', $this->getFieldName() . '_old[title][' . $id . ']');
+            $tpl->setVariable('TITLE_V', $value['title']);
+            $tpl->setVariable('DISABLED', $this->getDisabled() ? 'disabled' : '');
+            $tpl->setVariable('POSTVAR', $this->getPostVar());
+            $tpl->setVariable('LOCK_CSS', $this->getDisabled() ? 'locked' : '');
+            $tpl->setVariable('ID', $id);
+            $tpl->parseCurrentBlock();
         }
         if (!$this->getDisabled()) {
             $tpl->setCurrentBlock('new_input');
@@ -62,14 +60,14 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $tpl->get();
     }
 
-    public function insert(ilTemplate $a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_custom");
         $a_tpl->setVariable("CUSTOM_CONTENT", $this->getHtml());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $value)
+    public function setValueByArray(array $value): void
     {
         foreach ($this->getSubItems() as $item) {
             /**
@@ -90,7 +88,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
             $post = $this->http->wrapper()->post()->retrieve($this->getPostVar(), $this->refinery->kindlyTo()->string());
             $_POST[$this->getPostVar()] = ilUtil::stripSlashes($post);
 
-            if ($this->getRequired() && trim($post) == "") {
+            if ($this->getRequired() && trim($post) === "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
                 return false;
             }
@@ -98,7 +96,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): void
     {
         $this->values = $values;
     }
@@ -108,7 +106,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->values;
     }
 
-    public function setFieldName(string $field_name)
+    public function setFieldName(string $field_name): void
     {
         $this->field_name = $field_name;
     }
@@ -118,7 +116,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->field_name;
     }
 
-    public function setPlaceholderTitle(string $placeholder_title)
+    public function setPlaceholderTitle(string $placeholder_title): void
     {
         $this->placeholder_title = $placeholder_title;
     }
@@ -128,7 +126,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->placeholder_title;
     }
 
-    public function setPlaceholderValue(string $placeholder_value)
+    public function setPlaceholderValue(string $placeholder_value): void
     {
         $this->placeholder_value = $placeholder_value;
     }
@@ -143,7 +141,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->default_value;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }

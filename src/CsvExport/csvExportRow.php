@@ -23,7 +23,7 @@ class csvExportRow
         }
     }
 
-    public function setValues(array $values)
+    public function setValues(array $values): void
     {
         unset($this->values);
         $this->getColumns()->reset();
@@ -44,12 +44,11 @@ class csvExportRow
     {
         if (array_key_exists($column->getColumnId(), $this->values)) {
             return $this->values[$column->getColumnId()];
-        } else {
-            return null;
         }
+        return null;
     }
 
-    public function addValue(csvExportValue $value)
+    public function addValue(csvExportValue $value): void
     {
         if ($this->getColumns()->columnExists($value->getColumn())) {
             throw new csvExportException(csvExportException::COLUMN_DOES_ALREADY_EXISTS_IN_ROW);
@@ -64,14 +63,14 @@ class csvExportRow
     }
 
 
-    public function addValuesFromArray(array $column_names, array $values)
+    public function addValuesFromArray(array $column_names, array $values): void
     {
         foreach ($values as $value) {
             $this->addValue(new csvExportValue(array_shift($column_names), $value));
         }
     }
 
-    public function addValuesFromPairedArray(array $values)
+    public function addValuesFromPairedArray(array $values): void
     {
         foreach ($values as $column_name => $value) {
             $this->addValue(new csvExportValue($column_name, $value));

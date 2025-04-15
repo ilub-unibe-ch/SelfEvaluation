@@ -35,7 +35,7 @@ class Scale implements hasDBFields
         $this->units = ScaleUnit::_getAllInstancesByParentId($this->db, $this->getId());
     }
 
-    public function cloneTo($parent_obj_id): Scale
+    public function cloneTo(int $parent_obj_id): Scale
     {
         $clone = new self($this->db);
         $clone->setParentId($parent_obj_id);
@@ -77,7 +77,6 @@ class Scale implements hasDBFields
     }
 
     /**
-     * @param bool $flipped
      * @return array (unit value => unit title)
      */
     public function getUnitsAsArray(bool $flipped = false): array
@@ -106,7 +105,7 @@ class Scale implements hasDBFields
         $max = $min_max['max'];
 
         foreach ($this->units as $u) {
-            $return[(int)($u->getValue() * 100 / $max)] = $u->getTitle() . " (" . $u->getValue() . ")";
+            $return[(int) ($u->getValue() * 100 / $max)] = $u->getTitle() . " (" . $u->getValue() . ")";
         }
 
         return $return;
@@ -136,9 +135,9 @@ class Scale implements hasDBFields
         return ['min' => $min, 'max' => $max];
     }
 
-    public function read()
+    public function read(): void
     {
-        $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '.$this->getId());
+        $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = ' . $this->getId());
         $this->setObjectValuesFromRecord($this, $this->db->fetchObject($set));
     }
 
@@ -147,7 +146,7 @@ class Scale implements hasDBFields
         return ['db','units'];
     }
 
-    final public function initDB()
+    final public function initDB(): void
     {
         if (!$this->db->tableExists(self::TABLE_NAME)) {
             $this->db->createTable(self::TABLE_NAME, $this->getArrayForDbWithAttributes());
@@ -156,7 +155,7 @@ class Scale implements hasDBFields
         }
     }
 
-    public function create()
+    public function create(): void
     {
         if ($this->getId() != 0) {
             $this->update();
@@ -167,12 +166,12 @@ class Scale implements hasDBFields
         $this->db->insert(self::TABLE_NAME, $this->getArrayForDb());
     }
 
-    public function delete()
+    public function delete(): void
     {
-        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE id = '.$this->getId());
+        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE id = ' . $this->getId());
     }
 
-    public function update()
+    public function update(): void
     {
         if ($this->getId() == 0) {
             $this->create();
@@ -182,7 +181,7 @@ class Scale implements hasDBFields
 
     public static function _getInstanceByObjId(ilDBInterface $db, int $parent_obj_id): self
     {
-        $set = $db->query("SELECT * FROM " . self::TABLE_NAME . " " . " WHERE parent_id = ".$parent_obj_id);
+        $set = $db->query("SELECT * FROM " . self::TABLE_NAME . " " . " WHERE parent_id = " . $parent_obj_id);
         while ($rec = $db->fetchObject($set)) {
             return new self($db, (int) $rec->id);
         }
@@ -200,7 +199,7 @@ class Scale implements hasDBFields
         return $sorted_scale[count($sorted_scale) - 1];
     }
 
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -215,7 +214,7 @@ class Scale implements hasDBFields
         return count($this->units);
     }
 
-    public function setParentId(int $parent_id)
+    public function setParentId(int $parent_id): void
     {
         $this->parent_id = $parent_id;
     }

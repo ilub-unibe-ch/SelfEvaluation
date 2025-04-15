@@ -20,7 +20,7 @@ class csvExportValue
         $this->value = $value;
     }
 
-    public function setColumn(csvExportColumn $column)
+    public function setColumn(csvExportColumn $column): void
     {
         $this->column = $column;
     }
@@ -30,7 +30,7 @@ class csvExportValue
         return $this->column;
     }
 
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }

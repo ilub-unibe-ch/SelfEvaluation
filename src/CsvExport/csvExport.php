@@ -10,14 +10,10 @@ class csvExport
 
     public function __construct(csvExportTable $table = null)
     {
-        if ($table) {
-            $this->table = $table;
-        } else {
-            $this->table = new csvExportTable();
-        }
+        $this->table = $table ?: new csvExportTable();
     }
 
-    public function getCsvExport(string $delimiter = ";", string $enclosure = '"')
+    public function getCsvExport(string $delimiter = ";", string $enclosure = '"'): void
     {
         // output headers so that the file is downloaded rather than displayed
         header('Content-Encoding: UTF-8');
@@ -40,7 +36,10 @@ class csvExport
 
     }
 
-    protected function convertExcelUtf8(string $string): array|string
+    /**
+     * @return mixed[]|string
+     */
+    protected function convertExcelUtf8(string $string): string
     {
         $string = str_replace("Ä", mb_convert_encoding("Ä", 'UTF-16LE', 'UTF-8'), $string);
         $string = str_replace("Ü", mb_convert_encoding("Ü", 'UTF-16LE', 'UTF-8'), $string);
@@ -50,7 +49,7 @@ class csvExport
         return str_replace("ö", mb_convert_encoding("ö", 'UTF-16LE', 'UTF-8'), $string);
     }
 
-    public function setTable(csvExportTable $table)
+    public function setTable(csvExportTable $table): void
     {
         $this->table = $table;
     }

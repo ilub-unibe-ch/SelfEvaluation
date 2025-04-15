@@ -14,7 +14,6 @@ use ilTextInputGUI;
 use ilTextAreaInputGUI;
 use ilConfirmationGUI;
 use ilAccessHandler;
-use ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock;
 
 abstract class BlockGUI
 {
@@ -25,7 +24,10 @@ abstract class BlockGUI
     protected ilObjSelfEvaluationGUI $parent;
     protected ilAccessHandler $access;
     protected ilSelfEvaluationPlugin $plugin;
-    protected \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock|MetaBlock $object;
+    /**
+     * @var \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock|\ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock
+     */
+    protected $object;
 
     public function __construct(
         ilDBInterface $db,
@@ -43,7 +45,7 @@ abstract class BlockGUI
         $this->parent = $parent;
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $this->ctrl->saveParameter($this, 'block_id');
         $this->performCommand();
@@ -56,7 +58,7 @@ abstract class BlockGUI
 
     protected function performCommand()
     {
-        $cmd = ($this->ctrl->getCmd()) ? $this->ctrl->getCmd() : $this->getStandardCommand();
+        $cmd = $this->ctrl->getCmd() ?: $this->getStandardCommand();
 
         switch ($cmd) {
             case 'addBlock':
@@ -80,7 +82,7 @@ abstract class BlockGUI
         }
     }
 
-    protected function checkAccess($permission, $cmd): bool
+    protected function checkAccess(string $permission, string $cmd): bool
     {
         return $this->access->checkAccess($permission, $cmd, $this->parent->getRefId(), $this->plugin->getId());
     }
@@ -96,7 +98,7 @@ abstract class BlockGUI
         $this->ctrl->redirectByClass('ListBlocksGUI', 'showContent');
     }
 
-    public function initForm(string $mode = 'create')
+    public function initForm(string $mode = 'create'): void
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->plugin->txt($mode . '_block'));

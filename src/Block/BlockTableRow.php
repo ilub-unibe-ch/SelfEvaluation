@@ -76,7 +76,7 @@ class BlockTableRow
         return $arr;
     }
 
-    public function setAbbreviation(string $abbreviation)
+    public function setAbbreviation(string $abbreviation): void
     {
         $this->abbreviation = $abbreviation;
     }
@@ -86,7 +86,7 @@ class BlockTableRow
         return $this->abbreviation;
     }
 
-    public function setBlockEditLink(string $block_edit_link)
+    public function setBlockEditLink(string $block_edit_link): void
     {
         $this->block_edit_link = $block_edit_link;
     }
@@ -96,7 +96,7 @@ class BlockTableRow
         return $this->block_edit_link;
     }
 
-    public function setBlockId(int $block_id)
+    public function setBlockId(int $block_id): void
     {
         $this->block_id = $block_id;
     }
@@ -106,7 +106,7 @@ class BlockTableRow
         return $this->block_id;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
@@ -116,7 +116,7 @@ class BlockTableRow
         return $this->description;
     }
 
-    public function setFeedbackCount(int $feedback_count)
+    public function setFeedbackCount(int $feedback_count): void
     {
         $this->feedback_count = $feedback_count;
     }
@@ -126,7 +126,7 @@ class BlockTableRow
         return $this->feedback_count;
     }
 
-    public function setFeedbackLink(string $feedback_link)
+    public function setFeedbackLink(string $feedback_link): void
     {
         $this->feedback_link = $feedback_link;
     }
@@ -136,7 +136,7 @@ class BlockTableRow
         return $this->feedback_link;
     }
 
-    public function setPositionId(string $position_id)
+    public function setPositionId(string $position_id): void
     {
         $this->position_id = $position_id;
     }
@@ -146,7 +146,7 @@ class BlockTableRow
         return $this->position_id;
     }
 
-    public function setQuestionCount(int $question_count)
+    public function setQuestionCount(int $question_count): void
     {
         $this->question_count = $question_count;
     }
@@ -156,7 +156,7 @@ class BlockTableRow
         return $this->question_count;
     }
 
-    public function setQuestionsLink(string $questions_link)
+    public function setQuestionsLink(string $questions_link): void
     {
         $this->questions_link = $questions_link;
     }
@@ -166,7 +166,7 @@ class BlockTableRow
         return $this->questions_link;
     }
 
-    public function setStatusImg(string $status_img)
+    public function setStatusImg(string $status_img): void
     {
         $this->status_img = $status_img;
     }
@@ -176,7 +176,7 @@ class BlockTableRow
         return $this->status_img;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -189,7 +189,7 @@ class BlockTableRow
     /**
      * @param BlockTableAction[] $actions
      */
-    public function setActions(array $actions)
+    public function setActions(array $actions): void
     {
         $this->actions = $actions;
     }
@@ -202,7 +202,7 @@ class BlockTableRow
         return $this->actions;
     }
 
-    public function addAction(BlockTableAction $action)
+    public function addAction(BlockTableAction $action): void
     {
         $this->actions[] = $action;
     }

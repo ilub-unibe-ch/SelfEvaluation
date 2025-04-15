@@ -43,7 +43,7 @@ class Data implements hasDBFields
         }
     }
 
-    public function read()
+    public function read(): void
     {
         $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '
             . $this->db->quote($this->getId(), 'integer'));
@@ -52,7 +52,7 @@ class Data implements hasDBFields
         }
     }
 
-    final public function initDB()
+    final public function initDB(): void
     {
         if (!$this->db->tableExists(self::TABLE_NAME)) {
             $this->db->createTable(self::TABLE_NAME, $this->getArrayForDbWithAttributes());
@@ -61,7 +61,7 @@ class Data implements hasDBFields
         }
     }
 
-    public function create()
+    public function create(): void
     {
         if ($this->getId() != 0) {
             $this->update();
@@ -79,7 +79,7 @@ class Data implements hasDBFields
             . $this->db->quote($this->getId(), 'integer'));
     }
 
-    public function update()
+    public function update(): void
     {
         if ($this->getId() == 0) {
             $this->create();
@@ -97,7 +97,7 @@ class Data implements hasDBFields
     public static function _getAllInstancesByDatasetId(ilDBInterface $db, int $dataset_id): array
     {
         $return = [];
-        $set = $db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE dataset_id = ' .$dataset_id);
+        $set = $db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE dataset_id = ' . $dataset_id);
         while ($rec = $db->fetchObject($set)) {
             $data = new self($db);
             $data->setObjectValuesFromRecord($data, $rec);
@@ -109,7 +109,7 @@ class Data implements hasDBFields
 
     public static function _getLatestInstanceByDatasetId(ilDBInterface $db, int $dataset_id): ?Data
     {
-        $set = $db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE dataset_id = '.$dataset_id. ' ORDER BY creation_date DESC LIMIT 1');
+        $set = $db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE dataset_id = ' . $dataset_id . ' ORDER BY creation_date DESC LIMIT 1');
         while ($rec = $db->fetchObject($set)) {
             $data = new Data($db);
             return $data->setObjectValuesFromRecord($data, $rec);
@@ -143,7 +143,7 @@ class Data implements hasDBFields
         return $obj;
     }
 
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -153,7 +153,7 @@ class Data implements hasDBFields
         return $this->id;
     }
 
-    public function setDatasetId(int $dataset_id)
+    public function setDatasetId(int $dataset_id): void
     {
         $this->dataset_id = $dataset_id;
     }
@@ -163,7 +163,7 @@ class Data implements hasDBFields
         return $this->dataset_id;
     }
 
-    public function setQuestionId(int $question_id)
+    public function setQuestionId(int $question_id): void
     {
         $this->question_id = $question_id;
     }
@@ -173,7 +173,7 @@ class Data implements hasDBFields
         return $this->question_id;
     }
 
-    public function setQuestionType(string $question_type)
+    public function setQuestionType(string $question_type): void
     {
         $this->question_type = $question_type;
     }
@@ -183,7 +183,7 @@ class Data implements hasDBFields
         return $this->question_type;
     }
 
-    public function setValue(string $value)
+    public function setValue(string $value): void
     {
         $this->value = $value;
     }
@@ -192,7 +192,7 @@ class Data implements hasDBFields
     {
         try {
             $unserialized = @unserialize($this->value);
-        } catch (\Error) {
+        } catch (\Error $exception) {
             $unserialized = false;
         }
         if ($unserialized !== false) {
@@ -202,7 +202,7 @@ class Data implements hasDBFields
         return $this->value;
     }
 
-    public function setCreationDate(int $creation_date)
+    public function setCreationDate(int $creation_date): void
     {
         $this->creation_date = $creation_date;
     }

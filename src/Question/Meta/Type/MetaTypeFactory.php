@@ -6,10 +6,6 @@ namespace ilub\plugin\SelfEvaluation\Question\Meta\Type;
 
 class MetaTypeFactory
 {
-    /**
-     * @param int $type_id
-     * @return MetaQuestionType|null
-     */
     public function getTypeByTypeId(int $type_id): ?MetaQuestionType
     {
         switch ($type_id) {

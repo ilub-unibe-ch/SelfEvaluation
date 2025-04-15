@@ -47,20 +47,16 @@ class MetaTypeMatrix extends MetaQuestionType
         return $option;
     }
 
-    public function setValues(MetaTypeOption $item, array $values = [])
+    public function setValues(MetaTypeOption $item, array $values = []): void
     {
         $scale_values = self::getScaleFromArray($values);
         $question_values = self::getQuestionsFromArray($values);
 
         foreach ($item->getSubItems() as $sub_item) {
-            if ($sub_item instanceof ilTextWizardInputGUI and
-                $sub_item->getPostVar() == 'scale_' . $this->getId()) {
+            if ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() == 'scale_' . $this->getId()) {
                 $sub_item->setValue($scale_values);
-            } else {
-                if ($sub_item instanceof ilTextWizardInputGUI and
-                    $sub_item->getPostVar() == 'question_' . $this->getId()) {
-                    $sub_item->setValue($question_values);
-                }
+            } elseif ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() == 'question_' . $this->getId()) {
+                $sub_item->setValue($question_values);
             }
         }
     }
@@ -70,7 +66,7 @@ class MetaTypeMatrix extends MetaQuestionType
         $questions = [];
 
         foreach ($data as $key => $value) {
-            if (strpos((string)$key, 'question_') !== false) {
+            if (strpos((string) $key, 'question_') !== false) {
                 $questions[$key] = $value;
             }
         }
@@ -82,7 +78,7 @@ class MetaTypeMatrix extends MetaQuestionType
         $scale = [];
 
         foreach ($data as $key => $value) {
-            if (strpos((string)$key, 'scale_') !== false) {
+            if (strpos((string) $key, 'scale_') !== false) {
                 $scale[$key] = $value;
             }
         }
