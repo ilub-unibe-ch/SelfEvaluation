@@ -14,14 +14,15 @@ use ilTextInputGUI;
 use ilTextAreaInputGUI;
 use ilConfirmationGUI;
 use ilAccessHandler;
+use ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlockInterface;
 
 abstract class BlockGUI
 {
     protected ilPropertyFormGUI $form;
     /**
-     * @var \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock|\ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock
+     * @var \ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock
      */
-    protected $object;
+    protected Block $object;
 
     public function __construct(
         protected ilDBInterface $db,

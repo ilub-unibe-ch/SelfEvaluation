@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 use ilub\plugin\SelfEvaluation\Block\BlockGUI;
 use ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock;
+use ilub\plugin\SelfEvaluation\Block\Block;
 
 class QuestionBlockGUI extends BlockGUI
 {
     /**
-     * @var \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock|\ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock
+     * @var \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock
      */
-    protected QuestionBlock $object;
+    protected Block $object;
 
     public function __construct(
         ilDBInterface $db,
