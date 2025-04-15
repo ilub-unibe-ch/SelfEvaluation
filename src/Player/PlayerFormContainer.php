@@ -14,12 +14,10 @@ class PlayerFormContainer extends ilPropertyFormGUI
     protected array $copy_of_buttons = [];
     protected ?KnobGUI $knob = null;
     protected int $question_field_size = 6;
-    protected ilRepositoryObjectPlugin $plugin;
 
-    public function __construct(ilGlobalTemplateInterface $tpl, ilRepositoryObjectPlugin $plugin)
+    public function __construct(ilGlobalTemplateInterface $tpl, protected ilRepositoryObjectPlugin $plugin)
     {
         $this->global_tpl = $tpl;
-        $this->plugin = $plugin;
 
         parent::__construct();
     }

@@ -9,8 +9,6 @@ use ilSelfEvaluationPlugin;
 
 class BlockTableRow
 {
-    protected ilCtrl $ctrl;
-    protected ilSelfEvaluationPlugin $plugin;
     protected int $block_id;
     protected string $title;
     protected string $abbreviation = '';
@@ -29,12 +27,10 @@ class BlockTableRow
     protected string $block_gui_class;
 
     public function __construct(
-        ilCtrl $ilCtrl,
-        ilSelfEvaluationPlugin $plugin,
+        protected ilCtrl $ctrl,
+        protected ilSelfEvaluationPlugin $plugin,
         Block $block
     ) {
-        $this->ctrl = $ilCtrl;
-        $this->plugin = $plugin;
         $this->block_gui_class = (new \ReflectionClass($block))->getShortName() . 'GUI';
 
         $this->setBlockId($block->getId());
@@ -58,22 +54,7 @@ class BlockTableRow
 
     public function toArray(): array
     {
-        $arr = [];
-        $arr['block_id'] = $this->getBlockId();
-        $arr['position_id'] = $this->getPositionId();
-        $arr['title'] = $this->getTitle();
-        $arr['description'] = $this->getDescription();
-        $arr['abbreviation'] = $this->getAbbreviation();
-        $arr['question_count'] = is_numeric($this->getQuestionCount()) ? $this->getQuestionCount() : 0;
-        $arr['feedback_count'] = $this->getFeedbackCount();
-        $arr['status_img'] = $this->getStatusImg();
-        $arr['edit_link'] = $this->getBlockEditLink();
-        $arr['questions_link'] = $this->getQuestionsLink();
-        $arr['feedback_link'] = $this->getFeedbackLink();
-
-        $arr['actions'] = serialize($this->getActions());
-
-        return $arr;
+        return ['block_id' => $this->getBlockId(), 'position_id' => $this->getPositionId(), 'title' => $this->getTitle(), 'description' => $this->getDescription(), 'abbreviation' => $this->getAbbreviation(), 'question_count' => is_numeric($this->getQuestionCount()) ? $this->getQuestionCount() : 0, 'feedback_count' => $this->getFeedbackCount(), 'status_img' => $this->getStatusImg(), 'edit_link' => $this->getBlockEditLink(), 'questions_link' => $this->getQuestionsLink(), 'feedback_link' => $this->getFeedbackLink(), 'actions' => serialize($this->getActions())];
     }
 
     public function setAbbreviation(string $abbreviation): void

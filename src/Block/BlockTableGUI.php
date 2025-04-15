@@ -12,16 +12,13 @@ use ilAdvancedSelectionListGUI;
 
 class BlockTableGUI extends ilTable2GUI
 {
-    protected ilSelfEvaluationPlugin $plugin;
-
     public function __construct(
         ilCtrl $ilCtrl,
-        ilSelfEvaluationPlugin $plugin,
+        protected ilSelfEvaluationPlugin $plugin,
         ilObjSelfEvaluationGUI $parent,
         string $a_parent_cmd
     ) {
 
-        $this->plugin = $plugin;
         $this->ctrl = $ilCtrl;
         $this->setId('');
         parent::__construct($parent, $a_parent_cmd);

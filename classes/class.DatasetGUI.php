@@ -13,39 +13,19 @@ use ILIAS\Refinery\Factory;
 
 class DatasetGUI
 {
-    protected ilDBInterface $db;
-    protected ilGlobalPageTemplate $tpl;
-    protected ilCtrl $ctrl;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilToolbarGUI $toolbar;
-    protected ilAccessHandler $access;
-    protected ilSelfEvaluationPlugin $plugin;
     protected Dataset $dataset;
-    protected WrapperFactory $http;
-    protected Factory $refinery;
 
     public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalPageTemplate $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilAccessHandler $access,
-        ilSelfEvaluationPlugin $plugin,
-        WrapperFactory $http,
-        Factory $refinery
+        protected ilDBInterface $db,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected ilGlobalPageTemplate $tpl,
+        protected ilCtrl $ctrl,
+        protected ilToolbarGUI $toolbar,
+        protected ilAccessHandler $access,
+        protected ilSelfEvaluationPlugin $plugin,
+        protected WrapperFactory $http,
+        protected Factory $refinery
     ) {
-        $this->db = $db;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->parent = $parent;
-        $this->toolbar = $ilToolbar;
-        $this->plugin = $plugin;
-        $this->access = $access;
-        $this->http = $http;
-        $this->refinery = $refinery;
-
-
         $this->dataset = new Dataset($this->db, $this->http->query()->has('dataset_id') ? $this->http->query()->retrieve('dataset_id', $this->refinery->kindlyTo()->int()) : 0);
     }
 

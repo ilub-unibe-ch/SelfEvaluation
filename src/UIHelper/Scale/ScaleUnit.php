@@ -14,19 +14,14 @@ class ScaleUnit implements hasDBFields
     use ArrayForDB;
 
     public const TABLE_NAME = 'rep_robj_xsev_scale_u';
-    protected int $id = 0;
     protected string $title = 'Standartitle';
     protected int $value = 10;
     protected int $parent_id = 0;
     protected int $position = 99;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, $id = 0)
+    public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        $this->db = $db;
-
-        $this->id = $id;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }

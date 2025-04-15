@@ -22,36 +22,22 @@ class PlayerGUI
 {
     protected PlayerFormContainer $form;
     protected int $ref_id = 0;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilSelfEvaluationPlugin $plugin;
-    protected ilDBInterface $db;
     protected Identity $identity;
     /**
      * @var bool|\ilub\plugin\SelfEvaluation\Dataset\Dataset
      */
     protected $dataset;
-    protected WrapperFactory $http;
-    protected Factory $refinery;
 
 
     public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilSelfEvaluationPlugin $plugin,
-        WrapperFactory $http,
-        Factory $refinery
+        protected ilDBInterface $db,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilSelfEvaluationPlugin $plugin,
+        protected WrapperFactory $http,
+        protected Factory $refinery
     ) {
-        $this->db = $db;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->parent = $parent;
-        $this->plugin = $plugin;
-        $this->http = $http;
-        $this->refinery = $refinery;
         $this->ref_id = $this->parent->object->getRefId();
     }
 
@@ -191,7 +177,7 @@ class PlayerGUI
                 $qid = $this->http->post()->has("qst_" . $i) ? "qst_" . $i : "mqst_" . $i;
                 try {
                     $value = $this->http->post()->retrieve($qid, $this->refinery->kindlyTo()->string());
-                } catch (Exception $exception) {
+                } catch (Exception) {
                     $value = $this->http->post()->retrieve($qid, $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string()));
                 }
                 $data[$qid] = $value;
@@ -221,7 +207,7 @@ class PlayerGUI
         $this->ctrl->redirectByClass('DatasetGUI', 'show');
     }
 
-    protected function initPresentationForm($mode = 'new')
+    protected function initPresentationForm(string $mode = 'new')
     {
         $this->form = new PlayerFormContainer($this->tpl, $this->plugin);
         $this->form->setId('evaluation_form');
@@ -340,7 +326,7 @@ class PlayerGUI
     {
         $gui_class = "";
 
-        switch (get_class($block)) {
+        switch ($block::class) {
             case QuestionBlock::class:
             case VirtualQuestionBlock::class:
                 $gui_class = QuestionBlockPlayerGUI::class;

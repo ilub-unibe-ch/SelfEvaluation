@@ -20,40 +20,11 @@ abstract class BaseQuestionGUI
 {
     public const MODE_CREATE = 1;
     public const MODE_UPDATE = 2;
-
-    protected ilSelfEvaluationPlugin $plugin;
-    protected Block $block;
     protected ilPropertyFormGUI $form;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilToolbarGUI $toolbar;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilAccessHandler $access;
-    protected ilDBInterface $db;
-    protected Question $question;
     protected bool $enable_sorting = true;
 
-    public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilAccessHandler $access,
-        ilSelfEvaluationPlugin $plugin,
-        Block $block,
-        Question $question
-    ) {
-        $this->tpl = $tpl;
-        $this->toolbar = $ilToolbar;
-        $this->ctrl = $ilCtrl;
-        $this->parent = $parent;
-        $this->plugin = $plugin;
-        $this->access = $access;
-        $this->db = $db;
-        $this->block = $block;
-        $this->question = $question;
-
+    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, protected ilSelfEvaluationPlugin $plugin, protected Block $block, protected Question $question)
+    {
     }
 
     public function executeCommand(): void
@@ -76,23 +47,10 @@ abstract class BaseQuestionGUI
             throw new \ilObjectException($this->plugin->txt("permission_denied"));
         }
 
-        switch ($cmd) {
-            case 'showContent':
-            case 'cancel':
-            case 'addQuestion':
-            case 'saveSorting':
-            case 'createQuestion':
-            case 'saveRequired':
-            case 'editQuestion':
-            case 'updateQuestion':
-            case 'confirmDeleteQuestion':
-            case 'deleteQuestion':
-                $this->$cmd();
-                break;
-            default:
-                $this->showContent();
-                break;
-        }
+        match ($cmd) {
+            'showContent', 'cancel', 'addQuestion', 'saveSorting', 'createQuestion', 'saveRequired', 'editQuestion', 'updateQuestion', 'confirmDeleteQuestion', 'deleteQuestion' => $this->$cmd(),
+            default => $this->showContent(),
+        };
 
     }
 

@@ -7,24 +7,9 @@ class IdentityGUI
 {
     protected ilPropertyFormGUI $ex;
     protected ilPropertyFormGUI $new;
-    protected ilSelfEvaluationPlugin $plugin;
-    protected ilGlobalPageTemplate $tpl;
-    protected ilCtrl $ctrl;
-    protected ilDBInterface $db;
-    protected ilObjSelfEvaluationGUI $parent;
 
-    public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalPageTemplate $tpl,
-        ilCtrl $ilCtrl,
-        ilSelfEvaluationPlugin $plugin
-    ) {
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->parent = $parent;
-        $this->plugin = $plugin;
-        $this->db = $db;
+    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalPageTemplate $tpl, protected ilCtrl $ctrl, protected ilSelfEvaluationPlugin $plugin)
+    {
     }
 
     public function executeCommand(): void

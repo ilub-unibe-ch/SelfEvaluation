@@ -38,15 +38,11 @@ class DatasetCsvExport extends csvExport
      */
     protected array $datasets = [];
     protected string $date_format = "Y-m-d H:i:s";
-    protected ilSelfEvaluationPlugin $pl;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, ilSelfEvaluationPlugin $pl, $object_id = 0)
+    public function __construct(protected ilDBInterface $db, protected ilSelfEvaluationPlugin $pl, $object_id = 0)
     {
         parent::__construct();
         $this->setObjectId($object_id);
-        $this->pl = $pl;
-        $this->db = $db;
 
     }
 
@@ -243,7 +239,7 @@ class DatasetCsvExport extends csvExport
             } else {
                 $meta_csv_values[] = new csvExportValue("duration", (string) $dataset->getDuration());
             }
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $meta_csv_values[] = new csvExportValue("Error", "Invalid Date");
         }
         return $meta_csv_values;

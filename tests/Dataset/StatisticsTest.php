@@ -18,7 +18,7 @@ class StatisticsTest extends TestCase
 
     public function testConstruct(): void
     {
-        self::assertEquals(Statistics::class, get_class($this->statistics));
+        self::assertEquals(Statistics::class, $this->statistics::class);
     }
 
     public function testGetMeanFromDataOnEmpty(): void

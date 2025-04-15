@@ -9,37 +9,8 @@ use ILIAS\Refinery\Factory;
 
 class ListBlocksGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilToolbarGUI $toolbar;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilSelfEvaluationPlugin $plugin;
-    protected ilAccessHandler $access;
-    protected ilDBInterface $db;
-
-    protected WrapperFactory $http;
-    protected Factory $refinery;
-
-    public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilAccessHandler $access,
-        ilSelfEvaluationPlugin $plugin,
-        WrapperFactory $http,
-        Factory $refinery
-    ) {
-        $this->db = $db;
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
-        $this->parent = $parent;
-        $this->toolbar = $ilToolbar;
-        $this->access = $access;
-        $this->plugin = $plugin;
-        $this->http = $http;
-        $this->refinery = $refinery;
+    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, protected ilSelfEvaluationPlugin $plugin, protected WrapperFactory $http, protected Factory $refinery)
+    {
     }
 
     /**

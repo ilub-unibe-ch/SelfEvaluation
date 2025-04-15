@@ -8,17 +8,15 @@ use ilDBInterface;
 
 class csvExportTable
 {
-    /**
-     * @var csvExportRow[]|null
-     */
-    protected ?array $rows = null;
     protected ?csvExportColumns $columns = null;
     protected ?csvExportColumn $sort_column = null;
 
-    public function __construct(array $rows = [])
+    public function __construct(/**
+     * @var csvExportRow[]|null
+     */
+    protected ?array $rows = [])
     {
-        $this->rows = $rows;
-        $this->setRows($rows);
+        $this->setRows($this->rows);
     }
 
     /**

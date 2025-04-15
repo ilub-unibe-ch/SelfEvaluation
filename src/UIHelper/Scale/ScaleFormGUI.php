@@ -19,28 +19,17 @@ class ScaleFormGUI extends ilPropertyFormGUI
     public const FIELD_NAME = 'scale';
 
     protected Scale $scale;
-    protected ilRepositoryObjectPlugin $plugin;
-    protected ilGlobalTemplateInterface $tmpl;
-    protected ilDBInterface $db;
-    protected bool $locked;
-    protected int $parent_id;
 
     public function __construct(
-        ilDBInterface $db,
-        ilGlobalTemplateInterface $tmpl,
-        \ilSelfEvaluationPlugin $plugin,
-        $parent_obj_id,
-        $locked = false
+        protected ilDBInterface $db,
+        protected ilGlobalTemplateInterface $tmpl,
+        protected ilRepositoryObjectPlugin $plugin,
+        protected int $parent_id,
+        protected bool $locked = false
     ) {
         parent::__construct();
 
-        $this->plugin = $plugin;
-        $this->tmpl = $tmpl;
-        $this->locked = $locked;
-        $this->parent_id = $parent_obj_id;
-        $this->db = $db;
-
-        $this->scale = Scale::_getInstanceByObjId($db, $this->parent_id);
+        $this->scale = Scale::_getInstanceByObjId($this->db, $this->parent_id);
         $this->initForm();
         $this->tmpl->addJavaScript($this->plugin->getDirectory() . '/templates/js/sortable.js');
     }
@@ -140,7 +129,7 @@ class ScaleFormGUI extends ilPropertyFormGUI
                 $string,
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
 
@@ -153,7 +142,7 @@ class ScaleFormGUI extends ilPropertyFormGUI
                 $string,
                 $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string()))
             );
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
     }

@@ -21,8 +21,6 @@ class Data implements hasDBFields
     public const TABLE_NAME = 'rep_robj_xsev_d';
     public const QUESTION_TYPE = 'qst';
     public const META_QUESTION_TYPE = 'mqst';
-
-    protected int $id = 0;
     protected int $dataset_id = 0;
     protected int $question_id = 0;
     protected string $question_type = '';
@@ -31,14 +29,11 @@ class Data implements hasDBFields
      * @var string|array
      */
     protected $value = '';
-    protected ilDBInterface $db;
 
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        $this->id = $id;
-        $this->db = $db;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }
@@ -192,7 +187,7 @@ class Data implements hasDBFields
     {
         try {
             $unserialized = @unserialize($this->value);
-        } catch (\Error $exception) {
+        } catch (\Error) {
             $unserialized = false;
         }
         if ($unserialized !== false) {

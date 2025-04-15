@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 class ilSelfEvaluationConfig
 {
-    protected string $table_name = '';
     protected ilDBInterface $db;
 
-    public function __construct(string $table_name)
+    public function __construct(protected string $table_name)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->table_name = $table_name;
     }
 
     public function setTableName(string $table_name): void
@@ -30,10 +28,10 @@ class ilSelfEvaluationConfig
      */
     public function __call(string $method, array $params)
     {
-        if (substr($method, 0, 3) === 'get') {
+        if (str_starts_with($method, 'get')) {
             return $this->getValue(self::_fromCamelCase(substr($method, 3)));
         }
-        if (substr($method, 0, 3) === 'set') {
+        if (str_starts_with($method, 'set')) {
             $this->setValue(self::_fromCamelCase(substr($method, 3)), $params[0]);
 
             return true;
@@ -88,10 +86,10 @@ class ilSelfEvaluationConfig
     /**
      * @return bool|int|string
      */
-    public function getContainer()
+    public function getContainer(): int|string
     {
         $key = $this->getValue('container');
-        if ($key == '' || $key == 0) {
+        if ($key === '' || $key == 0) {
             return 1;
         }
         return $key;
@@ -137,7 +135,7 @@ class ilSelfEvaluationConfig
 
         return preg_replace_callback(
             '/-([a-z])/',
-            fn($c) => strtoupper($c[1]),
+            fn($c): string => strtoupper((string) $c[1]),
             $str
         );
     }

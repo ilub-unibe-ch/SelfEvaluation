@@ -132,18 +132,12 @@ trait DatasetHelperTrait
                 $this->getBlock3()->getId() => $this->getBlock3Percentage()];
     }
 
-    /**
-     * @return float|int
-     */
-    protected function getOverallPercentage()
+    protected function getOverallPercentage(): float|int
     {
         return ($this->getBlock1Percentage() + $this->getBlock2Percentage() + $this->getBlock3Percentage()) / 3;
     }
 
-    /**
-     * @return float|int
-     */
-    protected function getOverallPercentageVarianz()
+    protected function getOverallPercentageVarianz(): float|int
     {
         $op = ($this->getBlock1Percentage() + $this->getBlock2Percentage() + $this->getBlock3Percentage()) / 3;
         return ($this->getBlock1Percentage() - $op) ** 2 / 3

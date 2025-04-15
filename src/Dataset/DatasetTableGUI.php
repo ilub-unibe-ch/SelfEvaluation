@@ -16,23 +16,15 @@ use ilUtil;
 
 class DatasetTableGUI extends ilTable2GUI
 {
-    protected ilSelfEvaluationPlugin $plugin;
-    protected ilDBInterface $db;
-    protected ilCtrl $ctrl;
-
     public function __construct(
-        ilDBInterface $db,
-        ilCtrl $ilCtrl,
+        protected ilDBInterface $db,
+        protected ilCtrl $ctrl,
         DatasetGUI $a_parent_obj,
         string $a_parent_cmd,
-        ilSelfEvaluationPlugin $plugin,
+        protected ilSelfEvaluationPlugin $plugin,
         int $obj_id = 0,
         string $identifier = ""
     ) {
-        $this->plugin = $plugin;
-        $this->ctrl = $ilCtrl;
-        $this->db = $db;
-
         $this->setId('');
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($this->plugin->txt('dataset_table_title'));

@@ -9,16 +9,10 @@ use ilub\plugin\SelfEvaluation\CsvExport\Exceptions\csvExportException;
 class csvExportColumns
 {
     /**
-     * @var csvExportColumn[]
-     */
-    protected array $columns = [];
-
-    /**
      * @param csvExportColumn[] $columns
      */
-    public function __construct(array $columns = [])
+    public function __construct(protected array $columns = [])
     {
-        $this->columns = $columns;
     }
 
     public function setColumns(array $columns = []): void

@@ -7,7 +7,7 @@ namespace ilub\plugin\SelfEvaluation\Question\Meta\Type;
 use ilPropertyFormGUI;
 use ilSelfEvaluationPlugin;
 
-abstract class MetaQuestionType
+abstract class MetaQuestionType implements \Stringable
 {
     abstract public function getId(): int;
 

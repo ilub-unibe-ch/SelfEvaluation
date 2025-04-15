@@ -8,17 +8,13 @@ class MetaTypeFactory
 {
     public function getTypeByTypeId(int $type_id): ?MetaQuestionType
     {
-        switch ($type_id) {
-            case MetaTypeMatrix::TYPE_ID:
-                return new MetaTypeMatrix();
-            case MetaTypeSelect::TYPE_ID:
-                return new MetaTypeSelect();
-            case MetaTypeSingleChoice::TYPE_ID:
-                return new MetaTypeSingleChoice();
-            case MetaTypeText::TYPE_ID:
-                return new MetaTypeText();
-        }
-        return null;
+        return match ($type_id) {
+            MetaTypeMatrix::TYPE_ID => new MetaTypeMatrix(),
+            MetaTypeSelect::TYPE_ID => new MetaTypeSelect(),
+            MetaTypeSingleChoice::TYPE_ID => new MetaTypeSingleChoice(),
+            MetaTypeText::TYPE_ID => new MetaTypeText(),
+            default => null,
+        };
     }
 
     public function getTypes(): array

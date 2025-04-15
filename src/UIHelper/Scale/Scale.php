@@ -14,22 +14,16 @@ class Scale implements hasDBFields
     use ArrayForDB;
 
     public const TABLE_NAME = 'rep_robj_xsev_scale';
-
-    protected int $id = 0;
     protected int $parent_id = 0;
 
     /**
      * @var ScaleUnit[]
      */
     protected array $units;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        $this->db = $db;
-
-        $this->id = $id;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
         $this->units = ScaleUnit::_getAllInstancesByParentId($this->db, $this->getId());
@@ -95,7 +89,7 @@ class Scale implements hasDBFields
 
     public function hasUnits(): bool
     {
-        return count($this->units) > 0;
+        return $this->units !== [];
     }
 
     public function getUnitsAsRelativeArray(): array

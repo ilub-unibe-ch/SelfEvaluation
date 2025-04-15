@@ -31,7 +31,7 @@ class DatasetsTest extends TestCase
 
     public function testConstruct(): void
     {
-        self::assertEquals(Dataset::class, get_class($this->dataset));
+        self::assertEquals(Dataset::class, $this->dataset::class);
     }
 
     public function testIdAfterConstruct(): void
@@ -208,7 +208,7 @@ class DatasetsTest extends TestCase
         try {
             $this->dataset->getPercentageForBlock(1);
             self::fail();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             self::assertTrue(true);
         }
     }

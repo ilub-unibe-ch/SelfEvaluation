@@ -15,18 +15,12 @@ abstract class Question implements hasDBFields
 
     public const TABLE_NAME = "";
     public const PRIMARY_KEY = 'id';
-
-    protected ilDBInterface $db;
-    protected int $id;
     protected int $position = 99;
     protected int $parent_id;
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        $this->db = $db;
-        $this->id = $id;
-
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }

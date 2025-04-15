@@ -23,24 +23,8 @@ use ilub\plugin\SelfEvaluation\Dataset\Data;
 
 class FeedbackChartGUI
 {
-    protected ilGlobalPageTemplate $tpl;
-    protected ilRepositoryObjectPlugin $plugin;
-    protected ilDBInterface $db;
-    protected ilToolbarGUI $toolbar;
-    protected ilObjSelfEvaluation $evaluation;
-
-    public function __construct(
-        ilDBInterface $db,
-        ilGlobalPageTemplate $tpl,
-        ilRepositoryObjectPlugin $plugin,
-        ilToolbarGUI $toolbar,
-        ilObjSelfEvaluation $evaluation
-    ) {
-        $this->tpl = $tpl;
-        $this->plugin = $plugin;
-        $this->db = $db;
-        $this->toolbar = $toolbar;
-        $this->evaluation = $evaluation;
+    public function __construct(protected ilDBInterface $db, protected ilGlobalPageTemplate $tpl, protected ilRepositoryObjectPlugin $plugin, protected ilToolbarGUI $toolbar, protected ilObjSelfEvaluation $evaluation)
+    {
     }
 
     public function getPresentationOfFeedback(Dataset $dataset): string
@@ -53,7 +37,7 @@ class FeedbackChartGUI
             $this->parseBlockFeedback($tpl, $block, $dataset);
         }
 
-        if (count($blocks) > 0 && $this->showOverview()) {
+        if ($blocks !== [] && $this->showOverview()) {
             $tpl->setCurrentBlock('overview');
 
             $tpl->setVariable('BLOCK_OVERVIEW_TITLE', $this->plugin->txt('block_overview_title'));

@@ -18,31 +18,13 @@ use ilAccessHandler;
 abstract class BlockGUI
 {
     protected ilPropertyFormGUI $form;
-    protected ilDBInterface $db;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilAccessHandler $access;
-    protected ilSelfEvaluationPlugin $plugin;
     /**
      * @var \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock|\ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock
      */
     protected $object;
 
-    public function __construct(
-        ilDBInterface $db,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilAccessHandler $access,
-        ilSelfEvaluationPlugin $plugin,
-        ilObjSelfEvaluationGUI $parent
-    ) {
-        $this->db = $db;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->access = $access;
-        $this->plugin = $plugin;
-        $this->parent = $parent;
+    public function __construct(protected ilDBInterface $db, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilAccessHandler $access, protected ilSelfEvaluationPlugin $plugin, protected ilObjSelfEvaluationGUI $parent)
+    {
     }
 
     public function executeCommand(): void

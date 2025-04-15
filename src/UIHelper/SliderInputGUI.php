@@ -17,13 +17,11 @@ class SliderInputGUI extends ilSubEnabledFormPropertyGUI
     protected int $max = 0;
     protected string $unit = '%';
     protected string $ajax = '';
-    protected ilGlobalTemplateInterface $tpl;
     protected array $check = [];
-    protected ilRepositoryObjectPlugin $plugin;
 
     public function __construct(
-        ilGlobalTemplateInterface $tpl,
-        ilRepositoryObjectPlugin $plugin,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilRepositoryObjectPlugin $plugin,
         string $title,
         string $post_var,
         int $min,
@@ -31,8 +29,6 @@ class SliderInputGUI extends ilSubEnabledFormPropertyGUI
         string $ajax_request = ''
     ) {
         parent::__construct($title, $post_var);
-        $this->tpl = $tpl;
-        $this->plugin = $plugin;
         $this->setMin($min);
         $this->setMax($max);
         $this->setAjax($ajax_request);
@@ -81,9 +77,9 @@ class SliderInputGUI extends ilSubEnabledFormPropertyGUI
             $this->http->wrapper()->post()->retrieve(self::PREFIX . $this->getPostVar() . '_to', $this->refinery->kindlyTo()->string())
         ];
 
-        if ($this->getRequired() && trim($this->http->wrapper()->post()->retrieve(self::PREFIX . $this->getPostVar() . '_from', $this->refinery->kindlyTo()->string())) == '' && trim(
-            $this->http->wrapper()->post()->retrieve(self::PREFIX . $this->getPostVar() . 'to', $this->refinery->kindlyTo()->string()),
-        ) == ''
+        if ($this->getRequired() && trim((string) $this->http->wrapper()->post()->retrieve(self::PREFIX . $this->getPostVar() . '_from', $this->refinery->kindlyTo()->string())) === '' && trim(
+            (string) $this->http->wrapper()->post()->retrieve(self::PREFIX . $this->getPostVar() . 'to', $this->refinery->kindlyTo()->string()),
+        ) === ''
         ) {
             $this->setAlert($lng->txt('msg_input_is_required'));
 

@@ -12,12 +12,10 @@ namespace ilub\plugin\SelfEvaluation\CsvExport;
 class csvExportValue
 {
     protected ?csvExportColumn $column = null;
-    protected string $value = "";
 
-    public function __construct(string $column_name, string $value)
+    public function __construct(string $column_name, protected string $value)
     {
         $this->column = new csvExportColumn($column_name);
-        $this->value = $value;
     }
 
     public function setColumn(csvExportColumn $column): void

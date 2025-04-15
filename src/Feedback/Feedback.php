@@ -14,7 +14,6 @@ class Feedback implements hasDBFields
     use ArrayForDB;
 
     public const TABLE_NAME = 'rep_robj_xsev_fb';
-    public int $id = 0;
     protected int $parent_id = 0;
     protected string $title = '';
     protected string $description = '';
@@ -22,13 +21,10 @@ class Feedback implements hasDBFields
     protected int $end_value = 100;
     protected string $feedback_text = '';
     protected bool $parent_type_overall = false;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        $this->id = $id;
-        $this->db = $db;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }

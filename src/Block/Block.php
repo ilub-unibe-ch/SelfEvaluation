@@ -16,20 +16,14 @@ use ilub\plugin\SelfEvaluation\Identity\Identity;
 abstract class Block implements hasDBFields, BlockType
 {
     use ArrayForDB;
-
-    public int $id = 0;
     protected string $title = '';
     protected string $description = '';
     protected int $position = 99;
     protected int $parent_id = 0;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, $id = 0)
+    public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        $this->db = $db;
-
-        $this->id = $id;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }
@@ -188,7 +182,7 @@ abstract class Block implements hasDBFields, BlockType
 
     public function getPositionId(): string
     {
-        return get_class($this) . '_' . $this->getId();
+        return static::class . '_' . $this->getId();
     }
 
     abstract public function getBlockTableRow(ilDBInterface $db, ilCtrl $ilCtrl, ilSelfEvaluationPlugin $plugin): BlockTableRow;

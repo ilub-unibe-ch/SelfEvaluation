@@ -725,7 +725,7 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
     public function hasBLocks(): bool
     {
         foreach (QuestionBlock::_getAllInstancesByParentId($this->db, $this->getId()) as $block) {
-            if (count(Question::_getAllInstancesForParentId($this->db, $block->getId())) > 0) {
+            if (Question::_getAllInstancesForParentId($this->db, $block->getId()) !== []) {
                 return true;
             }
         }
@@ -755,7 +755,7 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
     public function hasDatasets(): bool
     {
         foreach (Identity::_getAllInstancesByObjId($this->db, $this->getId()) as $id) {
-            if (count(Dataset::_getAllInstancesByIdentifierId($this->db, $id->getId())) > 0) {
+            if (Dataset::_getAllInstancesByIdentifierId($this->db, $id->getId()) !== []) {
                 return true;
             }
         }
@@ -765,12 +765,10 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
 
     public function areBlocksSortable(): bool
     {
-        switch ($this->getSortType()) {
-            case self::SHUFFLE_OFF:
-                return true;
-            default:
-                return false;
-        }
+        return match ($this->getSortType()) {
+            self::SHUFFLE_OFF => true,
+            default => false,
+        };
     }
 
     public function isShowCharts(): bool

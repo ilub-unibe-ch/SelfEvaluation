@@ -39,7 +39,7 @@ class MetaTypeSelect extends MetaQuestionType
     public function setValues(MetaTypeOption $item, array $values = []): void
     {
         foreach ($item->getSubItems() as $sub_item) {
-            if ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() == 'value_' . $this->getId()) {
+            if ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() === 'value_' . $this->getId()) {
                 $sub_item->setValue($values);
             }
         }

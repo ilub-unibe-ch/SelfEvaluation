@@ -8,17 +8,15 @@ use ilub\plugin\SelfEvaluation\CsvExport\Exceptions\csvExportException;
 
 class csvExportRow
 {
-    /**
-     * @var csvExportValue[]
-     */
-    protected array $values = [];
     protected ?csvExportColumns $columns = null;
 
-    public function __construct(array $values = [])
+    public function __construct(/**
+     * @var csvExportValue[]
+     */
+    protected array $values = [])
     {
         $this->columns = new csvExportColumns();
-        $this->values = $values;
-        foreach ($values as $value) {
+        foreach ($this->values as $value) {
             $this->addValue($value);
         }
     }

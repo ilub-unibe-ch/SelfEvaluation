@@ -14,41 +14,14 @@ use ilub\plugin\SelfEvaluation\Feedback\FeedbackTableGUI;
 
 class FeedbackGUI
 {
-    private WrapperFactory $http;
-    private Factory $refinery;
     protected ilPropertyFormGUI $form;
     protected ilTemplate $overview;
     protected int $total = 0;
     protected QuestionBlockInterface $block;
     protected Feedback $feedback;
-    protected ilDBInterface $db;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilObjSelfEvaluationGUI $parent;
-    protected ilToolbarGUI $toolbar;
-    protected ilAccessHandler $access;
-    protected ilSelfEvaluationPlugin $plugin;
 
-    public function __construct(
-        ilDBInterface $db,
-        ilObjSelfEvaluationGUI $parent,
-        ilGlobalTemplateInterface $tpl,
-        ilCtrl $ilCtrl,
-        ilToolbarGUI $ilToolbar,
-        ilAccessHandler $access,
-        WrapperFactory $http,
-        Factory $refinery,
-        ilSelfEvaluationPlugin $plugin
-    ) {
-        $this->db = $db;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->parent = $parent;
-        $this->toolbar = $ilToolbar;
-        $this->access = $access;
-        $this->plugin = $plugin;
-        $this->refinery = $refinery;
-        $this->http = $http;
+    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, private WrapperFactory $http, private Factory $refinery, protected ilSelfEvaluationPlugin $plugin)
+    {
     }
 
     public function executeCommand(): void
@@ -151,7 +124,7 @@ class FeedbackGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function checkNextValue()
+    protected function checkNextValue(): never
     {
         header('Cache-Control: no-cache, must-revalidate');
         header('Content-type: application/json');

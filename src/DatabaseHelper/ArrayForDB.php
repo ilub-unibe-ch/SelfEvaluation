@@ -85,7 +85,7 @@ trait ArrayForDB
         foreach (array_keys($data->getArrayForDb()) as $k) {
             try {
                 $serialized = unserialize((string) $rec->{$k});
-            } catch (\ErrorException $exception) {
+            } catch (\ErrorException) {
                 $serialized = "false";
             }
             if (is_array($serialized)) {
@@ -112,17 +112,11 @@ trait ArrayForDB
 
     protected function getDBFieldType($var): string
     {
-        switch (gettype($var)) {
-            case 'string':
-            case 'array':
-            case 'object':
-                return 'text';
-            case 'NULL':
-            case 'boolean':
-                return 'integer';
-            default:
-                return gettype($var);
-        }
+        return match (gettype($var)) {
+            'string', 'array', 'object' => 'text',
+            'NULL', 'boolean' => 'integer',
+            default => gettype($var),
+        };
     }
 
     public function serialize(): string

@@ -17,13 +17,11 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $placeholder_title = 'Title';
     protected int $default_value = 0;
     protected string $description = "";
-    protected ilRepositoryObjectPlugin $plugin;
 
-    public function __construct(ilRepositoryObjectPlugin $plugin, string $title, string $post_var, string $field_name)
+    public function __construct(protected ilRepositoryObjectPlugin $plugin, string $title, string $post_var, string $field_name)
     {
         parent::__construct($title, $post_var);
         $this->setFieldName($field_name);
-        $this->plugin = $plugin;
     }
 
     public function getHtml(): string
@@ -88,7 +86,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
             $post = $this->http->wrapper()->post()->retrieve($this->getPostVar(), $this->refinery->kindlyTo()->string());
             $_POST[$this->getPostVar()] = ilUtil::stripSlashes($post);
 
-            if ($this->getRequired() && trim($post) === "") {
+            if ($this->getRequired() && trim((string) $post) === "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
                 return false;
             }

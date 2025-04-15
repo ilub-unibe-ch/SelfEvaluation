@@ -16,18 +16,13 @@ class Identity implements hasDBFields
     public const LENGTH = 6;
     public const TYPE_LOGIN = 1;
     public const TYPE_EXTERNAL = 2;
-
-    protected int $id = 0;
     protected string $identifier = '';
     protected int $obj_id = 0;
     protected int $type = self::TYPE_LOGIN;
-    protected ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        $this->id = $id;
-        $this->db = $db;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
     }

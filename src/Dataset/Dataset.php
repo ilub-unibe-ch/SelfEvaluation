@@ -25,13 +25,11 @@ class Dataset implements hasDBFields
     use ArrayForDB;
 
     public const TABLE_NAME = 'rep_robj_xsev_ds';
-    public int $id = 0;
     protected int $identifier_id = 0;
     protected int $creation_date = 0;
     protected int $highest_scale = 0;
     protected bool $complete = false;
     protected array $percentage_per_block = [];
-    protected ilDBInterface $db;
     /**
      * @var QuestionBlock[]
      */
@@ -42,11 +40,9 @@ class Dataset implements hasDBFields
     protected array $questions_data_for_blocks = [];
     protected Statistics $statistics;
 
-    public function __construct(ilDBInterface $db, int $id = 0)
+    public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        $this->id = $id;
-        $this->db = $db;
-        if ($id != 0) {
+        if ($this->id != 0) {
             $this->read();
         }
 
@@ -155,10 +151,10 @@ class Dataset implements hasDBFields
 
     protected function determineQuestionType(string $postvar_key): string
     {
-        if (strncmp($postvar_key, Question::POSTVAR_PREFIX, strlen(Question::POSTVAR_PREFIX)) === 0) {
+        if (str_starts_with($postvar_key, Question::POSTVAR_PREFIX)) {
             return Data::QUESTION_TYPE;
         }
-        if (strncmp($postvar_key, MetaQuestion::POSTVAR_PREFIX, strlen(MetaQuestion::POSTVAR_PREFIX)) === 0) {
+        if (str_starts_with($postvar_key, MetaQuestion::POSTVAR_PREFIX)) {
             return Data::META_QUESTION_TYPE;
         }
         return "";
@@ -431,10 +427,7 @@ class Dataset implements hasDBFields
         return true;
     }
 
-    /**
-     * @return \ilub\plugin\SelfEvaluation\Dataset\Dataset|bool
-     */
-    public static function _getInstanceByIdentifierId(ilDBInterface $db, int $identifier_id)
+    public static function _getInstanceByIdentifierId(ilDBInterface $db, int $identifier_id): \ilub\plugin\SelfEvaluation\Dataset\Dataset|false
     {
         $set = $db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE identifier_id = '
             . $db->quote($identifier_id, 'integer') . " ORDER BY id DESC");

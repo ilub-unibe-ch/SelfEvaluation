@@ -16,17 +16,14 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $value = "";
     protected array $values;
     protected array $scale = [];
-    protected ilRepositoryObjectPlugin $plugin;
     private Factory $ui_factory;
     private Renderer $ui_renderer;
 
-    public function __construct(ilRepositoryObjectPlugin $plugin, string $a_title = '', string $a_postvar = '')
+    public function __construct(protected ilRepositoryObjectPlugin $plugin, string $a_title = '', string $a_postvar = '')
     {
         global $DIC;
         parent::__construct($a_title, $a_postvar);
         $this->setType('matrix_field');
-
-        $this->plugin = $plugin;
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
     }
@@ -75,7 +72,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
         }
         try {
             [$matrix_key, $question_key] = explode("[", str_replace("]", "", $this->getPostVar()));
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
         }
 
         if (array_key_exists($matrix_key, $values)) {
@@ -129,7 +126,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
                     $post_var_parts[0],
                     $this->refinery->kindlyTo()->string()
                 );
-            } catch (ConstraintViolationException $exception) {
+            } catch (ConstraintViolationException) {
                 $value = $this->http->wrapper()->post()->retrieve(
                     $post_var_parts[0],
                     $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
@@ -140,7 +137,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
                     $this->setAlert($this->plugin->txt('msg_input_is_required'));
                     return false;
                 }
-            } elseif (trim($value) === '') {
+            } elseif (trim((string) $value) === '') {
                 $this->setAlert($this->plugin->txt('msg_input_is_required'));
                 return false;
             }

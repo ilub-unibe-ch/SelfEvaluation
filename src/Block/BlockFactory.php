@@ -10,13 +10,8 @@ use ilDBInterface;
 
 class BlockFactory
 {
-    protected int $id;
-    protected ilDBInterface $db;
-
-    public function __construct(ilDBInterface $db, int $self_eval_id)
+    public function __construct(protected ilDBInterface $db, protected int $id)
     {
-        $this->db = $db;
-        $this->id = $self_eval_id;
     }
 
     /**
