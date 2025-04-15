@@ -45,7 +45,6 @@ class BlockFactory
             return 1;
             // a is after b
         } else {
-
             return -1; // a is before b
         }
     }

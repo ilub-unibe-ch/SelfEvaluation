@@ -23,8 +23,17 @@ abstract class BaseQuestionGUI
     protected ilPropertyFormGUI $form;
     protected bool $enable_sorting = true;
 
-    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, protected ilSelfEvaluationPlugin $plugin, protected Block $block, protected Question $question)
-    {
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilToolbarGUI $toolbar,
+        protected ilAccessHandler $access,
+        protected ilSelfEvaluationPlugin $plugin,
+        protected Block $block,
+        protected Question $question
+    ) {
     }
 
     public function executeCommand(): void
@@ -48,10 +57,10 @@ abstract class BaseQuestionGUI
         }
 
         match ($cmd) {
-            'showContent', 'cancel', 'addQuestion', 'saveSorting', 'createQuestion', 'saveRequired', 'editQuestion', 'updateQuestion', 'confirmDeleteQuestion', 'deleteQuestion' => $this->$cmd(),
+            'showContent', 'cancel', 'addQuestion', 'saveSorting', 'createQuestion', 'saveRequired', 'editQuestion', 'updateQuestion', 'confirmDeleteQuestion', 'deleteQuestion' => $this->$cmd(
+            ),
             default => $this->showContent(),
         };
-
     }
 
     protected function showContent()
@@ -78,7 +87,6 @@ abstract class BaseQuestionGUI
 
     protected function saveSorting()
     {
-
         if ($this->parent->http->post()->has('position')) {
             $post_array = $this->parent->http->post()->retrieve(
                 'position',
@@ -92,10 +100,13 @@ abstract class BaseQuestionGUI
                 $this->question->update();
             }
         }
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt("sorting_saved"), true);
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->plugin->txt("sorting_saved"),
+            true
+        );
         $this->ctrl->redirect($this, 'showContent');
     }
-
 
     public function addQuestion(): void
     {
@@ -113,7 +124,6 @@ abstract class BaseQuestionGUI
 
     abstract public function setQuestionFormValues();
 
-
     public function initQuestionForm(string $mode = 'create'): void
     {
         $this->form = new ilPropertyFormGUI();
@@ -121,7 +131,6 @@ abstract class BaseQuestionGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->addCommandButton($mode . 'Question', $this->plugin->txt($mode . '_question_button'));
         $this->form->addCommandButton('cancel', $this->plugin->txt('cancel'));
-
     }
 
     protected function createQuestion()
@@ -141,7 +150,11 @@ abstract class BaseQuestionGUI
             $this->createQuestionSetFields();
             $this->question->setParentId($this->block->getId());
             $this->question->update();
-            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_question_updated'), true);
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+                $this->plugin->txt('msg_question_updated'),
+                true
+            );
             $this->cancel();
         }
 
@@ -152,7 +165,10 @@ abstract class BaseQuestionGUI
 
     public function confirmDeleteQuestion(): void
     {
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_QUESTION, $this->plugin->txt('qst_delete_question'));
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_QUESTION,
+            $this->plugin->txt('qst_delete_question')
+        );
         $conf = new ilConfirmationGUI();
         $conf->setHeaderText($this->plugin->txt('qst_delete_question'));
         $conf->setFormAction($this->ctrl->getFormAction($this));
@@ -160,7 +176,8 @@ abstract class BaseQuestionGUI
         $conf->setConfirm($this->plugin->txt('delete_question'), 'deleteQuestion');
         $title = $this->question->getTitle();
         if ($title === "") {
-            $title = $this->plugin->txt('question') . ' ' . $this->block->getPosition() . '.' . $this->question->getPosition();
+            $title = $this->plugin->txt('question') . ' ' . $this->block->getPosition(
+            ) . '.' . $this->question->getPosition();
         }
 
         $conf->addItem('question_id', (string) $this->question->getId(), $title);
@@ -169,10 +186,15 @@ abstract class BaseQuestionGUI
 
     public function deleteQuestion(): void
     {
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_question_deleted'), true);
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->plugin->txt('msg_question_deleted'),
+            true
+        );
         $this->question->delete();
         $this->cancel();
     }
+
     public function enableSorting(bool $enable_sorting): void
     {
         $this->enable_sorting = $enable_sorting;

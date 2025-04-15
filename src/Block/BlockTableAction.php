@@ -8,8 +8,12 @@ class BlockTableAction
 {
     protected int $position = 0;
 
-    public function __construct(protected string $title, protected string $cmd, protected string $link, int $position = 0)
-    {
+    public function __construct(
+        protected string $title,
+        protected string $cmd,
+        protected string $link,
+        int $position = 0
+    ) {
         $this->setPosition($position);
     }
 

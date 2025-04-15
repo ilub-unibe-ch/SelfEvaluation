@@ -11,11 +11,12 @@ class csvExportTable
     protected ?csvExportColumns $columns = null;
     protected ?csvExportColumn $sort_column = null;
 
-    public function __construct(/**
-     * @var csvExportRow[]|null
-     */
-    protected ?array $rows = [])
-    {
+    public function __construct(
+        /**
+         * @var csvExportRow[]|null
+         */
+        protected ?array $rows = []
+    ) {
         $this->setRows($this->rows);
     }
 
@@ -149,8 +150,10 @@ class csvExportTable
         foreach ($this->getRowsValuesAsArray() as $row_id => $row_array) {
             $values[1 + $row_id] = [];
             foreach ($this->getColumnsArray() as $column) {
-                $values[1 + $row_id][] = array_key_exists($column->getColumnId(), $row_array) ? $row_array[$column->getColumnId()] : "";
-
+                $values[1 + $row_id][] = array_key_exists(
+                    $column->getColumnId(),
+                    $row_array
+                ) ? $row_array[$column->getColumnId()] : "";
             }
         }
         return $values;
@@ -171,7 +174,10 @@ class csvExportTable
                     return 1;
                 }
                 if (is_string($row_a->getValue($sort_column))) {
-                    return strcmp($row_a->getValue($sort_column)->getValue(), $row_b->getValue($sort_column)->getValue());
+                    return strcmp(
+                        $row_a->getValue($sort_column)->getValue(),
+                        $row_b->getValue($sort_column)->getValue()
+                    );
                 }
                 return $row_a->getValue($sort_column)->getValue() > $row_b->getValue($sort_column)->getValue() ? 1 : -1;
             });

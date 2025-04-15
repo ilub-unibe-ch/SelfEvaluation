@@ -137,7 +137,7 @@ class Scale implements hasDBFields
 
     protected function getNonDbFields(): array
     {
-        return ['db','units'];
+        return ['db', 'units'];
     }
 
     final public function initDB(): void

@@ -26,7 +26,6 @@ class MetaTypeMatrix extends MetaQuestionType
 
     public function getValueDefinitionInputGUI(ilSelfEvaluationPlugin $plugin, MetaTypeOption $option): MetaTypeOption
     {
-
         $ty_se_mu = new ilTextWizardInputGUI($plugin->txt("matrix_scale"), 'scale_' . $this->getId());
         $ty_se_mu->setRequired(true);
         $ty_se_mu->setSize(32);
@@ -35,8 +34,11 @@ class MetaTypeMatrix extends MetaQuestionType
         $ty_se_mu->setInfo($plugin->txt("matrix_scale_description"));
         $option->addSubItem($ty_se_mu);
 
-        $ty_se_mu = new ilTextWizardInputGUI($plugin->txt("matrix_question"), 'question_' .
-            $this->getId());
+        $ty_se_mu = new ilTextWizardInputGUI(
+            $plugin->txt("matrix_question"),
+            'question_' .
+            $this->getId()
+        );
         $ty_se_mu->setRequired(true);
         $ty_se_mu->setSize(64);
         $ty_se_mu->setMaxLength(4096);
@@ -55,7 +57,8 @@ class MetaTypeMatrix extends MetaQuestionType
         foreach ($item->getSubItems() as $sub_item) {
             if ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() === 'scale_' . $this->getId()) {
                 $sub_item->setValue($scale_values);
-            } elseif ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar() === 'question_' . $this->getId()) {
+            } elseif ($sub_item instanceof ilTextWizardInputGUI && $sub_item->getPostVar(
+            ) === 'question_' . $this->getId()) {
                 $sub_item->setValue($question_values);
             }
         }
@@ -106,8 +109,12 @@ class MetaTypeMatrix extends MetaQuestionType
         return array_merge($scale, $questions);
     }
 
-    public function getPresentationInputGUI(ilSelfEvaluationPlugin $plugin, string $title, string $postvar, array $values): array
-    {
+    public function getPresentationInputGUI(
+        ilSelfEvaluationPlugin $plugin,
+        string $title,
+        string $postvar,
+        array $values
+    ): array {
         $scale_values = self::getScaleFromArray($values);
         $question_values = self::getQuestionsFromArray($values);
 

@@ -18,7 +18,6 @@ class BlockTableGUI extends ilTable2GUI
         ilObjSelfEvaluationGUI $parent,
         string $a_parent_cmd
     ) {
-
         $this->ctrl = $ilCtrl;
         $this->setId('');
         parent::__construct($parent, $a_parent_cmd);
@@ -82,7 +81,7 @@ class BlockTableGUI extends ilTable2GUI
         usort($actions, function (BlockTableAction $action_a, BlockTableAction $action_b): int {
             $value = $action_a->getPosition() > $action_b->getPosition();
             if ($value) {
-                return 1 ;
+                return 1;
             }
             return -1;
         });

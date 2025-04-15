@@ -81,13 +81,19 @@ class ScaleFormGUI extends ilPropertyFormGUI
         $positions = [];
 
         $this->scale->update();
-        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_new') && !is_array($this->http->wrapper()->post()->retrieve(
-            self::FIELD_NAME . '_new',
-            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()))
-        ))) {
+        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_new') && !is_array(
+            $this->http->wrapper()->post()->retrieve(
+                self::FIELD_NAME . '_new',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+                )
+            )
+        )) {
             return;
         }
-        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_position') && is_array($this->getArrayFromPost(self::FIELD_NAME . '_position'))) {
+        if ($this->http->wrapper()->post()->has(self::FIELD_NAME . '_position') && is_array(
+            $this->getArrayFromPost(self::FIELD_NAME . '_position')
+        )) {
             $positions = array_flip($this->getArrayFromPost(self::FIELD_NAME . '_position'));
         }
 
@@ -132,7 +138,6 @@ class ScaleFormGUI extends ilPropertyFormGUI
         } catch (\Exception) {
             return null;
         }
-
     }
 
     public function getArrayFromPostComplex(string $string): ?array
@@ -140,7 +145,9 @@ class ScaleFormGUI extends ilPropertyFormGUI
         try {
             return $this->http->wrapper()->post()->retrieve(
                 $string,
-                $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string()))
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+                )
             );
         } catch (\Exception) {
             return null;

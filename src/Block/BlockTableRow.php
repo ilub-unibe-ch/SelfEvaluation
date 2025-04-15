@@ -54,7 +54,20 @@ class BlockTableRow
 
     public function toArray(): array
     {
-        return ['block_id' => $this->getBlockId(), 'position_id' => $this->getPositionId(), 'title' => $this->getTitle(), 'description' => $this->getDescription(), 'abbreviation' => $this->getAbbreviation(), 'question_count' => is_numeric($this->getQuestionCount()) ? $this->getQuestionCount() : 0, 'feedback_count' => $this->getFeedbackCount(), 'status_img' => $this->getStatusImg(), 'edit_link' => $this->getBlockEditLink(), 'questions_link' => $this->getQuestionsLink(), 'feedback_link' => $this->getFeedbackLink(), 'actions' => serialize($this->getActions())];
+        return [
+            'block_id' => $this->getBlockId(),
+            'position_id' => $this->getPositionId(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'abbreviation' => $this->getAbbreviation(),
+            'question_count' => is_numeric($this->getQuestionCount()) ? $this->getQuestionCount() : 0,
+            'feedback_count' => $this->getFeedbackCount(),
+            'status_img' => $this->getStatusImg(),
+            'edit_link' => $this->getBlockEditLink(),
+            'questions_link' => $this->getQuestionsLink(),
+            'feedback_link' => $this->getFeedbackLink(),
+            'actions' => serialize($this->getActions())
+        ];
     }
 
     public function setAbbreviation(string $abbreviation): void

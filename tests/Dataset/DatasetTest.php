@@ -47,10 +47,11 @@ class DatasetsTest extends TestCase
 
     public function testGetArrayForDBOnEmpty(): void
     {
-        self::assertEquals(['id' => ['integer', 0],
-                            'identifier_id' => ['integer', 0],
-                            'creation_date' => ['integer', 0],
-                            'complete' => ['integer', 0]
+        self::assertEquals([
+            'id' => ['integer', 0],
+            'identifier_id' => ['integer', 0],
+            'creation_date' => ['integer', 0],
+            'complete' => ['integer', 0]
         ], $this->dataset->getArrayForDb());
     }
 
@@ -143,7 +144,6 @@ class DatasetsTest extends TestCase
 
         foreach ($fixtures as $fixture) {
             $this->db->shouldReceive("insert")->with(Data::TABLE_NAME, Mockery::on($fixture));
-
         }
 
         $this->dataset->updateValuesByPost($data);
@@ -261,7 +261,10 @@ class DatasetsTest extends TestCase
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
         $percentages = $this->getBlockThreeBlocksPercentages();
-        self::assertEquals($percentages[$this->getBlock1()->getId()], $this->dataset->getPercentageForBlock($this->getBlock1()->getId()));
+        self::assertEquals(
+            $percentages[$this->getBlock1()->getId()],
+            $this->dataset->getPercentageForBlock($this->getBlock1()->getId())
+        );
     }
 
     public function testGetPercentagePerBlockWithMultipleQuestionAnswers(): void
@@ -273,12 +276,18 @@ class DatasetsTest extends TestCase
     public function testGetMinPercentageBlock(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
-        self::assertEquals([$this->getBlock2(), $this->getBlock2Percentage()], $this->dataset->getMinPercentageBlockAndMin());
+        self::assertEquals(
+            [$this->getBlock2(), $this->getBlock2Percentage()],
+            $this->dataset->getMinPercentageBlockAndMin()
+        );
     }
 
     public function testGetMaxPercentageBlock(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
-        self::assertEquals([$this->getBlock1(), $this->getBlock1Percentage()], $this->dataset->getMaxPercentageBlockAndMax());
+        self::assertEquals(
+            [$this->getBlock1(), $this->getBlock1Percentage()],
+            $this->dataset->getMaxPercentageBlockAndMax()
+        );
     }
 }

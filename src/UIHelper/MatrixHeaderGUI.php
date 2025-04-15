@@ -14,8 +14,11 @@ class MatrixHeaderGUI extends ilSubEnabledFormPropertyGUI
     protected array $scale = [];
     protected string $block_info = '';
 
-    public function __construct(protected ilRepositoryObjectPlugin $plugin, string $a_title = '', string $a_postvar = '')
-    {
+    public function __construct(
+        protected ilRepositoryObjectPlugin $plugin,
+        string $a_title = '',
+        string $a_postvar = ''
+    ) {
         parent::__construct($a_title, $a_postvar);
         $this->setType('matrix_header');
         $this->setPostvar('matrix_header');

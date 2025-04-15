@@ -9,8 +9,17 @@ use ILIAS\Refinery\Factory;
 
 class ListBlocksGUI
 {
-    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, protected ilSelfEvaluationPlugin $plugin, protected WrapperFactory $http, protected Factory $refinery)
-    {
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilToolbarGUI $toolbar,
+        protected ilAccessHandler $access,
+        protected ilSelfEvaluationPlugin $plugin,
+        protected WrapperFactory $http,
+        protected Factory $refinery
+    ) {
     }
 
     /**
@@ -55,8 +64,6 @@ class ListBlocksGUI
         $this->tpl->addJavaScript($this->plugin->getDirectory() . '/templates/js/sortable.js');
         $table = new BlockTableGUI($this->ctrl, $this->plugin, $this->parent, 'showContent');
 
-
-
         $this->ctrl->setParameterByClass(QuestionBlockGUI::class, 'block_id', null);
         $this->toolbar->addButton(
             $this->txt('add_new_question_block'),
@@ -87,14 +94,16 @@ class ListBlocksGUI
         $table->setData($table_data);
 
         $this->tpl->setContent($table->getHTML());
-
     }
 
     public function saveSorting(): void
     {
         $factory = new BlockFactory($this->db, $this->getSelfEvalId());
         $blocks = $factory->getAllBlocks();
-        $positions = $this->http->post()->retrieve('position', $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string()));
+        $positions = $this->http->post()->retrieve(
+            'position',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
         foreach ($blocks as $block) {
             $position = (int) array_search($block->getPositionId(), $positions) + 1;
             if ($position !== 0) {
@@ -103,7 +112,11 @@ class ListBlocksGUI
             }
         }
 
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->txt('sorting_saved'), true);
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->txt('sorting_saved'),
+            true
+        );
         $this->ctrl->redirect($this, 'showContent');
     }
 

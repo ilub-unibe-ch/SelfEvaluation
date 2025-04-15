@@ -6,7 +6,6 @@ class ilSelfEvaluationExporter extends ilXmlExporter
 {
     public function init(): void
     {
-
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string

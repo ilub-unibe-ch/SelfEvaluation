@@ -43,7 +43,6 @@ class DatasetCsvExport extends csvExport
     {
         parent::__construct();
         $this->setObjectId($object_id);
-
     }
 
     public function getCsvExport(string $delimiter = ";", string $enclosure = '"'): void
@@ -80,21 +79,27 @@ class DatasetCsvExport extends csvExport
         $this->getTable()->addColumn(new csvExportColumn("mean", $this->pl->txt("overview_statistics_median"), -60));
         $this->getTable()->addColumn(new csvExportColumn("max", $this->pl->txt("overview_statistics_max"), -50));
         $this->getTable()->addColumn(new csvExportColumn("min", $this->pl->txt("overview_statistics_min"), -40));
-        $this->getTable()->addColumn(new csvExportColumn(
-            "percentage_variance",
-            $this->pl->txt("overview_statistics_varianz"),
-            -30
-        ));
-        $this->getTable()->addColumn(new csvExportColumn(
-            "percentage_sd",
-            $this->pl->txt("overview_statistics_standardabweichung"),
-            -20
-        ));
-        $this->getTable()->addColumn(new csvExportColumn(
-            "percentage_sd_per_block",
-            $this->pl->txt("overview_statistics_standardabweichung_per_plock"),
-            -10
-        ));
+        $this->getTable()->addColumn(
+            new csvExportColumn(
+                "percentage_variance",
+                $this->pl->txt("overview_statistics_varianz"),
+                -30
+            )
+        );
+        $this->getTable()->addColumn(
+            new csvExportColumn(
+                "percentage_sd",
+                $this->pl->txt("overview_statistics_standardabweichung"),
+                -20
+            )
+        );
+        $this->getTable()->addColumn(
+            new csvExportColumn(
+                "percentage_sd_per_block",
+                $this->pl->txt("overview_statistics_standardabweichung_per_plock"),
+                -10
+            )
+        );
 
         $this->getTable()->setSortColumn("starting_date");
 
@@ -103,11 +108,13 @@ class DatasetCsvExport extends csvExport
         }
 
         foreach ($this->getQuestions() as $question) {
-            $this->getTable()->addColumn(new csvExportColumn(
-                $this->getTitleForQuestion($question),
-                $this->getTitleForQuestion($question),
-                $position
-            ));
+            $this->getTable()->addColumn(
+                new csvExportColumn(
+                    $this->getTitleForQuestion($question),
+                    $this->getTitleForQuestion($question),
+                    $position
+                )
+            );
             $position++;
         }
     }
@@ -136,7 +143,6 @@ class DatasetCsvExport extends csvExport
                 );
                 $position++;
             }
-
         } else {
             $column_name = $meta_question->getShortTitle() ?: $meta_question->getName();
             $this->getTable()->addColumn(
@@ -161,8 +167,6 @@ class DatasetCsvExport extends csvExport
         }
         return $position;
     }
-
-
 
     protected function setRows()
     {
@@ -195,9 +199,9 @@ class DatasetCsvExport extends csvExport
                 }
             }
             $this->getTable()->addRow($row);
-
         }
     }
+
     protected function getIdentity(Dataset $dataset): csvExportValue
     {
         $identifier = new Identity($this->db, $dataset->getIdentifierId());
@@ -252,8 +256,8 @@ class DatasetCsvExport extends csvExport
          * @var $max_block Block
          * @var $min_block Block
          */
-        [$min_block,$min_percentage] = $dataset->getMinPercentageBlockAndMin();
-        [$max_block,$max_percentage] = $dataset->getMaxPercentageBlockAndMax();
+        [$min_block, $min_percentage] = $dataset->getMinPercentageBlockAndMin();
+        [$max_block, $max_percentage] = $dataset->getMaxPercentageBlockAndMax();
         $sd_per_block = $dataset->getPercentageStandardabweichungPerBlock();
 
         $statistics_sd_per_block = "";
@@ -261,21 +265,24 @@ class DatasetCsvExport extends csvExport
             $statistics_sd_per_block .= $dataset->getBlockById($key)->getTitle() . ": " . $sd . "; ";
         }
 
-
         $meta_csv_values[] = new csvExportValue("mean", $dataset->getOverallPercentage() . "%");
         $meta_csv_values[] = new csvExportValue("max", $max_block->getTitle() . ": " . $max_percentage . "%");
         $meta_csv_values[] = new csvExportValue("min", $min_block->getTitle() . ": " . $min_percentage . "%");
-        $meta_csv_values[] = new csvExportValue("percentage_variance", (string) $dataset->getOverallPercentageVarianz());
-        $meta_csv_values[] = new csvExportValue("percentage_sd", (string) $dataset->getOverallPercentageStandardabweichung());
+        $meta_csv_values[] = new csvExportValue(
+            "percentage_variance",
+            (string) $dataset->getOverallPercentageVarianz()
+        );
+        $meta_csv_values[] = new csvExportValue(
+            "percentage_sd",
+            (string) $dataset->getOverallPercentageStandardabweichung()
+        );
         $meta_csv_values[] = new csvExportValue("percentage_sd_per_block", $statistics_sd_per_block);
 
         return $meta_csv_values;
     }
 
-
     protected function getQuestionValues(csvExportRow $row, Data $entry): csvExportValue
     {
-
         $column_name = $this->getTitleForQuestion($this->getQuestion($entry->getQuestionId()));
 
         $column_name = $this->generateUniqueName($row, $column_name);
@@ -306,7 +313,6 @@ class DatasetCsvExport extends csvExport
         $meta_csv_values = [];
 
         if ($meta_question->getTypeId() == MetaTypeMatrix::TYPE_ID) {
-
             $question_values = $meta_question->getValues();
             $questions = MetaTypeMatrix::getQuestionsFromArray($question_values);
             foreach ($questions as $key => $question) {
@@ -322,9 +328,7 @@ class DatasetCsvExport extends csvExport
                     );
                 }
             }
-
         } else {
-
             $column_name = $meta_question->getShortTitle() ?: $meta_question->getName();
             $column_name = $this->generateUniqueName($row, $column_name);
             $key = $this->handledSkipped($entry->getValue());
@@ -359,7 +363,8 @@ class DatasetCsvExport extends csvExport
     protected function getTitleForQuestion(Question $question): string
     {
         $block = new QuestionBlock($this->db, $question->getParentId());
-        return $question->getTitle() ?: $this->pl->txt('question') . ' ' . $block->getPosition() . '.' . $question->getPosition();
+        return $question->getTitle() ?: $this->pl->txt('question') . ' ' . $block->getPosition(
+        ) . '.' . $question->getPosition();
     }
 
     public function setObjectId(int $object_id): void
@@ -412,7 +417,6 @@ class DatasetCsvExport extends csvExport
         return $this->meta_questions;
     }
 
-
     public function getMetaQuestion(int $id): ?MetaQuestion
     {
         if (array_key_exists($id, $this->meta_questions)) {
@@ -420,6 +424,7 @@ class DatasetCsvExport extends csvExport
         }
         return null;
     }
+
     /**
      * @param Question[] $questions
      */

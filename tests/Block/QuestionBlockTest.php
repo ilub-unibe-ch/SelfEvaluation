@@ -37,12 +37,14 @@ class QuestionBlockTest extends TestCase
     public function testGetArrayForDBOnEmpty(): void
     {
         self::assertEquals(
-            ['id' => ['integer', 0],
-                            'abbreviation' => ['text', ""],
-                            'title' => ['text', ""],
-                            'description' => ['text', ""],
-                            'position' => ['integer', 99],
-                            'parent_id' => ['integer', 0]],
+            [
+                'id' => ['integer', 0],
+                'abbreviation' => ['text', ""],
+                'title' => ['text', ""],
+                'description' => ['text', ""],
+                'position' => ['integer', 99],
+                'parent_id' => ['integer', 0]
+            ],
             $this->block->getArrayForDb()
         );
     }

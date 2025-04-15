@@ -20,19 +20,37 @@ class FeedbackGUI
     protected QuestionBlockInterface $block;
     protected Feedback $feedback;
 
-    public function __construct(protected ilDBInterface $db, protected ilObjSelfEvaluationGUI $parent, protected ilGlobalTemplateInterface $tpl, protected ilCtrl $ctrl, protected ilToolbarGUI $toolbar, protected ilAccessHandler $access, private WrapperFactory $http, private Factory $refinery, protected ilSelfEvaluationPlugin $plugin)
-    {
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilCtrl $ctrl,
+        protected ilToolbarGUI $toolbar,
+        protected ilAccessHandler $access,
+        private WrapperFactory $http,
+        private Factory $refinery,
+        protected ilSelfEvaluationPlugin $plugin
+    ) {
     }
 
     public function executeCommand(): void
     {
-        $parent_overall = $this->http->query()->has('parent_overall') ? $this->http->query()->retrieve('parent_overall', $this->refinery->kindlyTo()->int()) : null;
+        $parent_overall = $this->http->query()->has('parent_overall') ? $this->http->query()->retrieve(
+            'parent_overall',
+            $this->refinery->kindlyTo()->int()
+        ) : null;
         if ($parent_overall) {
             $this->block = new VirtualOverallBlock($this->parent->object->getId(), $this->plugin);
         } else {
-            $this->block = new QuestionBlock($this->db, $this->http->query()->retrieve('block_id', $this->refinery->kindlyTo()->int()));
+            $this->block = new QuestionBlock(
+                $this->db,
+                $this->http->query()->retrieve('block_id', $this->refinery->kindlyTo()->int())
+            );
         }
-        $feedback_id = $this->http->query()->has('feedback_id') ? $this->http->query()->retrieve('feedback_id', $this->refinery->kindlyTo()->int()) : null;
+        $feedback_id = $this->http->query()->has('feedback_id') ? $this->http->query()->retrieve(
+            'feedback_id',
+            $this->refinery->kindlyTo()->int()
+        ) : null;
         if ($feedback_id) {
             $this->feedback = new Feedback($this->db, $feedback_id);
         } else {
@@ -106,20 +124,27 @@ class FeedbackGUI
     protected function addNew()
     {
         $this->initForm();
-        $this->feedback->setStartValue(Feedback::_getNextMinValueForParentId(
-            $this->db,
-            $this->block->getId(),
-            $this->http->query()->has('start_value') ? $this->http->query()->retrieve('start_value', $this->refinery->kindlyTo()->int()) : 0,
-            0,
-            $this->feedback->isParentTypeOverall()
-        ));
-        $this->feedback->setEndValue(Feedback::_getNextMaxValueForParentId(
-            $this->db,
-            $this->block->getId(),
-            $this->feedback->getStartValue(),
-            0,
-            $this->feedback->isParentTypeOverall()
-        ));
+        $this->feedback->setStartValue(
+            Feedback::_getNextMinValueForParentId(
+                $this->db,
+                $this->block->getId(),
+                $this->http->query()->has('start_value') ? $this->http->query()->retrieve(
+                    'start_value',
+                    $this->refinery->kindlyTo()->int()
+                ) : 0,
+                0,
+                $this->feedback->isParentTypeOverall()
+            )
+        );
+        $this->feedback->setEndValue(
+            Feedback::_getNextMaxValueForParentId(
+                $this->db,
+                $this->block->getId(),
+                $this->feedback->getStartValue(),
+                0,
+                $this->feedback->isParentTypeOverall()
+            )
+        );
         $this->setValues();
         $this->tpl->setContent($this->form->getHTML());
     }
@@ -128,8 +153,14 @@ class FeedbackGUI
     {
         header('Cache-Control: no-cache, must-revalidate');
         header('Content-type: application/json');
-        $ignore = $this->http->query()->has('feedback_id') ? $this->http->query()->retrieve('feedback_id', $this->refinery->kindlyTo()->int()) : 0;
-        $start_value = $this->http->query()->has('start_value') ? $this->http->query()->retrieve('start_value', $this->refinery->kindlyTo()->int()) : 0;
+        $ignore = $this->http->query()->has('feedback_id') ? $this->http->query()->retrieve(
+            'feedback_id',
+            $this->refinery->kindlyTo()->int()
+        ) : 0;
+        $start_value = $this->http->query()->has('start_value') ? $this->http->query()->retrieve(
+            'start_value',
+            $this->refinery->kindlyTo()->int()
+        ) : 0;
         $start = Feedback::_getNextMinValueForParentId(
             $this->db,
             $this->block->getId(),
@@ -144,8 +175,14 @@ class FeedbackGUI
             $ignore,
             $this->feedback->isParentTypeOverall()
         );
-        $from = $this->http->query()->has('from') ? $this->http->query()->retrieve('from', $this->refinery->kindlyTo()->int()) : 0;
-        $to = $this->http->query()->has('to') ? $this->http->query()->retrieve('to', $this->refinery->kindlyTo()->int()) : 0;
+        $from = $this->http->query()->has('from') ? $this->http->query()->retrieve(
+            'from',
+            $this->refinery->kindlyTo()->int()
+        ) : 0;
+        $to = $this->http->query()->has('to') ? $this->http->query()->retrieve(
+            'to',
+            $this->refinery->kindlyTo()->int()
+        ) : 0;
         $state = $from >= $start && $to <= $end;
         echo json_encode([
             'check' => $state,
@@ -215,7 +252,12 @@ class FeedbackGUI
             $this->form->addItem($sl);
         }
 
-        $te = new TinyMceTextAreaInputGUI($this->parent->object->getRefId(), $this->plugin->getId(), $this->plugin->txt('feedback_text'), 'feedback_text');
+        $te = new TinyMceTextAreaInputGUI(
+            $this->parent->object->getRefId(),
+            $this->plugin->getId(),
+            $this->plugin->txt('feedback_text'),
+            'feedback_text'
+        );
         $te->setRequired(true);
         $this->form->addItem($te);
     }
@@ -246,11 +288,15 @@ class FeedbackGUI
 
             $obj->setFeedbackText($this->form->getInput('feedback_text'));
             $obj->create();
-            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_feedback_created'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+                $this->plugin->txt('msg_feedback_created')
+            );
             $this->cancel();
         } else {
-            $this->form->getItemByPostVar('slider')->setValues([$this->form->getInput("slider_slider_from"),
-                                                                $this->form->getInput("slider_slider_to")
+            $this->form->getItemByPostVar('slider')->setValues([
+                $this->form->getInput("slider_slider_from"),
+                $this->form->getInput("slider_slider_to")
             ]);
         }
         $this->form->setValuesByPost();
@@ -290,7 +336,10 @@ class FeedbackGUI
             $this->feedback->setEndValue((int) $this->form->getInput('slider_slider_to'));
             $this->feedback->setFeedbackText($this->form->getInput('feedback_text'));
             $this->feedback->update();
-            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_feedback_created'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+                $this->plugin->txt('msg_feedback_created')
+            );
             $this->cancel();
         }
         $this->form->setValuesByPost();
@@ -310,7 +359,10 @@ class FeedbackGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         } else {
-            $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE, $this->plugin->txt('msg_no_feedback_selected'));
+            $this->tpl->setOnScreenMessage(
+                ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
+                $this->plugin->txt('msg_no_feedback_selected')
+            );
             $this->listObjects();
             return;
         }
@@ -319,7 +371,10 @@ class FeedbackGUI
 
     protected function deleteFeedbacksConfirmation(array $ids = [])
     {
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_QUESTION, $this->plugin->txt('qst_delete_feedback'));
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_QUESTION,
+            $this->plugin->txt('qst_delete_feedback')
+        );
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setCancel($this->plugin->txt('cancel'), 'cancel');
@@ -328,7 +383,6 @@ class FeedbackGUI
         foreach ($ids as $id) {
             $obj = new Feedback($this->db, (int) $id);
             $conf->addItem('id[]', (string) $obj->getId(), $obj->getTitle());
-
         }
 
         $this->tpl->setContent($conf->getHTML());
@@ -336,9 +390,16 @@ class FeedbackGUI
 
     protected function deleteObject()
     {
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_feedback_deleted'), true);
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->plugin->txt('msg_feedback_deleted'),
+            true
+        );
 
-        $ids = $this->http->post()->retrieve('id', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        $ids = $this->http->post()->retrieve(
+            'id',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
         foreach ($ids as $id) {
             $obj = new Feedback($this->db, (int) $id);
             $obj->delete();

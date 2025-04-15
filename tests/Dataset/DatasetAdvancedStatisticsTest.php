@@ -33,7 +33,10 @@ class DatasetAdvancedStatisticsTest extends TestCase
 
     public function testGetOverallPercentageStandardabweichung(): void
     {
-        self::assertEquals(sqrt($this->getOverallPercentageVarianz()), $this->dataset->getOverallPercentageStandardabweichung());
+        self::assertEquals(
+            sqrt($this->getOverallPercentageVarianz()),
+            $this->dataset->getOverallPercentageStandardabweichung()
+        );
     }
 
     public function testGetPercentageStandardAbweichungPerBlock(): void

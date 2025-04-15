@@ -28,7 +28,6 @@ class PlayerFormContainer extends ilPropertyFormGUI
      */
     public function addCommandButton(string $a_cmd, string $a_text, string $a_id = ''): void
     {
-
         $this->copy_of_buttons[] = ["cmd" => $a_cmd, "text" => $a_text];
         parent::addCommandButton($a_cmd, $a_text);
     }
@@ -47,7 +46,6 @@ class PlayerFormContainer extends ilPropertyFormGUI
         $this->knob = new KnobGUI();
         $this->knob->setValue($page);
         $this->knob->setMax($last_page);
-
     }
 
     /**

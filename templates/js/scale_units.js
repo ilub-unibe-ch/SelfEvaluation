@@ -18,8 +18,7 @@
                 });
                 $(this).tooltip('enable');
                 $(this).tooltip({trigger: 'hover'});
-            }
-            else {
+            } else {
                 $(this).tooltip('disable');
                 $(this).text(self.full_unit_titels[id]);
             }

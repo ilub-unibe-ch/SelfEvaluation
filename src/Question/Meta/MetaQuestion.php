@@ -20,7 +20,6 @@ class MetaQuestion extends BaseQuestion
     protected array $values = [];
     protected int $required = 0;
 
-
     public function cloneTo(int $parent_id): BaseQuestion
     {
         $clone = new self($this->db);
@@ -65,7 +64,6 @@ class MetaQuestion extends BaseQuestion
 
     public function getTypeId(): int
     {
-
         return $this->type_id;
     }
 

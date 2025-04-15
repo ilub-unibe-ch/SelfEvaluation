@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 class ilSelfEvaluationImporter extends ilXmlImporter
 {
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ): void {
         $ref_id = false;
         foreach ($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new) {
             if (ilObject::_lookupType($new) === "xsev" && $a_id == $old) {

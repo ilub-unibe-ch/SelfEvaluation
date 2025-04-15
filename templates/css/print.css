@@ -19,12 +19,14 @@
     div.ilMainHeader, div.il_HeaderOuter, div.ilPermaLink, div.il_Footer, div.ilTopBar, .breadcrumb, ul#ilTab, .il-maincontrols, .il-layout-page header, .header-inner, .breadcrumbs {
         display: none;
     }
-    div.il-layout-page{
+
+    div.il-layout-page {
         display: block;
         height: auto;
         overflow: visible;
     }
-    .il-layout-page-content{
+
+    .il-layout-page-content {
         display: block;
     }
 

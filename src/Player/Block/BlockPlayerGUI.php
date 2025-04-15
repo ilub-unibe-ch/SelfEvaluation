@@ -13,8 +13,12 @@ use ilSelfEvaluationPlugin;
 
 abstract class BlockPlayerGUI
 {
-    public function __construct(protected ilDBInterface $db, protected ilSelfEvaluationPlugin $plugin, protected ilObjSelfEvaluationGUI $parent, protected Block $block)
-    {
+    public function __construct(
+        protected ilDBInterface $db,
+        protected ilSelfEvaluationPlugin $plugin,
+        protected ilObjSelfEvaluationGUI $parent,
+        protected Block $block
+    ) {
     }
 
     public function getBlockForm(PlayerFormContainer $parent_form): PlayerFormContainer

@@ -19,8 +19,11 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
     private Factory $ui_factory;
     private Renderer $ui_renderer;
 
-    public function __construct(protected ilRepositoryObjectPlugin $plugin, string $a_title = '', string $a_postvar = '')
-    {
+    public function __construct(
+        protected ilRepositoryObjectPlugin $plugin,
+        string $a_title = '',
+        string $a_postvar = ''
+    ) {
         global $DIC;
         parent::__construct($a_title, $a_postvar);
         $this->setType('matrix_field');

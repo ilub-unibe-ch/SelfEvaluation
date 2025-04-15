@@ -27,7 +27,7 @@ xsevChartToggle = function (parent_id) {
 
     this.hideIfLoaded = function (depth) {
         if ((self.spider_chart.find("canvas").length ||
-            self.left_right_chart.find("canvas").length)
+                self.left_right_chart.find("canvas").length)
             || depth > 100) {
 
             if (self.spider_chart_button != self.first_button) {

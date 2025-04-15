@@ -78,20 +78,17 @@ $q->initDB();
 <#4>
 <?php
 
-
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
         'type' => 'integer',
         'length' => 1,
     ];
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_questions', $field);
-
 }
 
 ?>
 <#5>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -102,13 +99,11 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_fbs_charts', $field);
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_fbs_overview', $field);
     $this->db->dropTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_questions');
-
 }
 
 ?>
 <#6>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -117,13 +112,14 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     ];
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_block_titles_sev', $field);
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_block_titles_fb', $field);
-    $this->db->manipulate('UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
-        ' SET `show_block_titles_sev` = 1, `show_block_titles_fb` = 1;');
+    $this->db->manipulate(
+        'UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
+        ' SET `show_block_titles_sev` = 1, `show_block_titles_fb` = 1;'
+    );
 }
 ?>
 <#7>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -132,13 +128,14 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     ];
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_block_desc_sev', $field);
     $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_block_desc_fb', $field);
-    $this->db->manipulate('UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
-        ' SET `show_block_desc_sev` = 1, `show_block_desc_fb` = 1;');
+    $this->db->manipulate(
+        'UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
+        ' SET `show_block_desc_sev` = 1, `show_block_desc_fb` = 1;'
+    );
 }
 ?>
 <#8>
 <?php
-
 
 $block = new \ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock($this->db);
 if (!$this->db->tableColumnExists($block::_getTableName(), 'abbreviation')) {
@@ -167,7 +164,6 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
 <#10>
 <?php
 
-
 $block = new \ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock($this->db);
 $block->initDB();
 
@@ -178,14 +174,18 @@ if (!$this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Dataset\Data::TABL
         'notnull' => true
     ];
     $this->db->addTableColumn(\ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME, 'question_type', $field);
-    $this->db->manipulate('UPDATE ' . \ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME .
-        ' SET `question_type` = ' . $this->db->quote(\ilub\plugin\SelfEvaluation\Dataset\Data::QUESTION_TYPE, 'text') . ';');
+    $this->db->manipulate(
+        'UPDATE ' . \ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME .
+        ' SET `question_type` = ' . $this->db->quote(
+            \ilub\plugin\SelfEvaluation\Dataset\Data::QUESTION_TYPE,
+            'text'
+        ) . ';'
+    );
     $this->db->modifyTableColumn(\ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME, 'value', ['type' => 'clob']);
 }
 ?>
 <#11>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     if (!$this->db->tableColumnExists(ilObjSelfEvaluation::TABLE_NAME, 'sort_random_nr_items_block')) {
@@ -200,7 +200,6 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
 <#12>
 <?php
 
-
 if ($this->db->tableExists(\ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME)) {
     if (!$this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME, 'creation_date')) {
         $field = [
@@ -214,9 +213,6 @@ if ($this->db->tableExists(\ilub\plugin\SelfEvaluation\Dataset\Data::TABLE_NAME)
 <#13>
 <?php
 
-
-
-
 if (!$this->db->tableColumnExists(
     \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
     'short_title'
@@ -226,13 +222,16 @@ if (!$this->db->tableColumnExists(
         'length' => 1024,
         'notnull' => true
     ];
-    $this->db->addTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'short_title', $field);
+    $this->db->addTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'short_title',
+        $field
+    );
 }
 
 ?>
 <#14>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -259,7 +258,8 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
         $this->db->addTableColumn(ilObjSelfEvaluation::TABLE_NAME, 'show_fbs_chart_left_right', $field);
     }
 
-    $this->db->manipulate('UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
+    $this->db->manipulate(
+        'UPDATE ' . ilObjSelfEvaluation::TABLE_NAME .
         ' SET
 			`show_fbs_overview_bar` = 1,
 			`show_fbs_overview_spider` = 1,
@@ -267,8 +267,8 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
 			`show_fbs_chart_bar` = 1,
 			`show_fbs_chart_spider` = 1,
 			`show_fbs_chart_left_right` = 1
-			;');
-
+			;'
+    );
 }
 ?>
 <#15>
@@ -280,7 +280,6 @@ $this->db->modifyTableColumn(\ilub\plugin\SelfEvaluation\Feedback\Feedback::TABL
 ?>
 <#16>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -296,7 +295,6 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
 <#17>
 <?php
 
-
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
         'type' => 'integer',
@@ -309,7 +307,6 @@ if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
 ?>
 <#18>
 <?php
-
 
 if ($this->db->tableExists(ilObjSelfEvaluation::TABLE_NAME)) {
     $field = [
@@ -328,8 +325,15 @@ if ($this->db->tableExists(\ilub\plugin\SelfEvaluation\Feedback\Feedback::TABLE_
         'type' => 'integer',
         'length' => 4
     ];
-    if (!$this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Feedback\Feedback::TABLE_NAME, 'parent_type_overall')) {
-        $this->db->addTableColumn(\ilub\plugin\SelfEvaluation\Feedback\Feedback::TABLE_NAME, 'parent_type_overall', $field);
+    if (!$this->db->tableColumnExists(
+        \ilub\plugin\SelfEvaluation\Feedback\Feedback::TABLE_NAME,
+        'parent_type_overall'
+    )) {
+        $this->db->addTableColumn(
+            \ilub\plugin\SelfEvaluation\Feedback\Feedback::TABLE_NAME,
+            'parent_type_overall',
+            $field
+        );
     }
 }
 ?>
@@ -382,7 +386,10 @@ foreach ($overall_feedbacks as $overall_feedback) {
         $overall_feedback->update();
     } else {
         $overall_feedback->delete();
-        throw new Exception("Step 23: Given ID is not ref-id of type xsev: " . $overall_feedback->getParentId() . " the Feedback has been deleted due to invalid data");
+        throw new Exception(
+            "Step 23: Given ID is not ref-id of type xsev: " . $overall_feedback->getParentId(
+            ) . " the Feedback has been deleted due to invalid data"
+        );
     }
 }
 ?>
@@ -401,19 +408,42 @@ if (!$this->db->tableColumnExists(ilObjSelfEvaluation::TABLE_NAME, 'identity_sel
     ]);
 }
 if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'container_id')) {
-    $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'container_id', 'parent_id');
+    $this->db->renameTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'container_id',
+        'parent_id'
+    );
 }
 if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_name')) {
-    $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_name', 'name');
+    $this->db->renameTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'field_name',
+        'name'
+    );
 }
 if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_type')) {
-    $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_type', 'type');
+    $this->db->renameTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'field_type',
+        'type'
+    );
 }
 if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_values')) {
-    $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_values', 'values');
+    $this->db->renameTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'field_values',
+        'values'
+    );
 }
-if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_required')) {
-    $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'field_required', 'required');
+if ($this->db->tableColumnExists(
+    \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+    'field_required'
+)) {
+    $this->db->renameTableColumn(
+        \ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME,
+        'field_required',
+        'required'
+    );
 }
 if ($this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'type')) {
     $this->db->renameTableColumn(\ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion::TABLE_NAME, 'type', 'type_id');
@@ -428,5 +458,5 @@ if (!$this->db->tableColumnExists(\ilub\plugin\SelfEvaluation\Dataset\Dataset::T
     ];
     $this->db->addTableColumn(\ilub\plugin\SelfEvaluation\Dataset\Dataset::TABLE_NAME, 'complete', $field);
 }
-$this->db->query("UPDATE ".\ilub\plugin\SelfEvaluation\Dataset\Dataset::TABLE_NAME." SET complete = 1 ");
+$this->db->query("UPDATE " . \ilub\plugin\SelfEvaluation\Dataset\Dataset::TABLE_NAME . " SET complete = 1 ");
 ?>

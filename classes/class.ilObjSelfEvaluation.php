@@ -115,7 +115,6 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
         foreach ($old_feedbacks as $feedback) {
             $feedback->cloneTo($new_obj->getId());
         }
-
     }
 
     protected function initType(): void
@@ -521,12 +520,12 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
         $this->block_option_random_desc = $block_option_random_desc;
     }
 
-
-
     protected function doRead(): void
     {
-        $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '
-            . $this->db->quote($this->getId(), 'integer'));
+        $set = $this->db->query(
+            'SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '
+            . $this->db->quote($this->getId(), 'integer')
+        );
         while ($rec = $this->db->fetchObject($set)) {
             $this->setOnline((bool) $rec->is_online);
             $this->setIdentitySelection((bool) $rec->identity_selection);
@@ -555,13 +554,11 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
             $this->setShowFbsChartBar((bool) $rec->show_fbs_chart_bar);
             $this->setShowFbsChartSpider((bool) $rec->show_fbs_chart_spider);
             $this->setShowFbsChartLeftRight((bool) $rec->show_fbs_chart_left_right);
-
         }
     }
 
     protected function doUpdate(): void
     {
-
         $this->db->update(self::TABLE_NAME, $this->getArrayForDb(), $this->getIdForDb());
     }
 
@@ -593,9 +590,10 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
         foreach (MetaBlock::_getAllInstancesByParentId($this->db, $this->getId()) as $block) {
             $block->delete();
         }
-        $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME . ' WHERE ' . ' id = '
-            . $this->db->quote($this->getId(), 'integer'));
-
+        $this->db->manipulate(
+            'DELETE FROM ' . self::TABLE_NAME . ' WHERE ' . ' id = '
+            . $this->db->quote($this->getId(), 'integer')
+        );
     }
 
     public function toXML(): SimpleXMLElement
@@ -617,15 +615,30 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
         $xml->addAttribute("showFeedbacksCharts", $this->isShowFeedbacksCharts() ? 'true' : 'false');
         $xml->addAttribute("showFeedbacksOverview", $this->isShowFeedbacksOverview() ? 'true' : 'false');
         $xml->addAttribute("showFbsOverviewStatistics", $this->isShowFbsOverviewStatistics() ? 'true' : 'false');
-        $xml->addAttribute("showBlockTitlesDuringEvaluation", $this->isShowBlockTitlesDuringEvaluation() ? 'true' : 'false');
-        $xml->addAttribute("showBlockDescriptionsDuringEvaluation", $this->isShowBlockDescriptionsDuringEvaluation() ? 'true' : 'false');
-        $xml->addAttribute("showBlockTitlesDuringFeedback", $this->isShowBlockTitlesDuringFeedback() ? 'true' : 'false');
-        $xml->addAttribute("showBlockDescriptionsDuringFeedback", $this->isShowBlockDescriptionsDuringFeedback() ? 'true' : 'false');
+        $xml->addAttribute(
+            "showBlockTitlesDuringEvaluation",
+            $this->isShowBlockTitlesDuringEvaluation() ? 'true' : 'false'
+        );
+        $xml->addAttribute(
+            "showBlockDescriptionsDuringEvaluation",
+            $this->isShowBlockDescriptionsDuringEvaluation() ? 'true' : 'false'
+        );
+        $xml->addAttribute(
+            "showBlockTitlesDuringFeedback",
+            $this->isShowBlockTitlesDuringFeedback() ? 'true' : 'false'
+        );
+        $xml->addAttribute(
+            "showBlockDescriptionsDuringFeedback",
+            $this->isShowBlockDescriptionsDuringFeedback() ? 'true' : 'false'
+        );
         $xml->addAttribute("sortRandomNrItemBlock", (string) $this->getSortRandomNrItemBlock());
         $xml->addAttribute("blockOptionRandomDesc", $this->getBlockOptionRandomDesc());
         $xml->addAttribute("showFbsOverviewBar", $this->isShowFbsOverviewBar() ? 'true' : 'false');
         $xml->addAttribute("showFbsOverviewText", $this->isShowFbsOverviewText() ? 'true' : 'false');
-        $xml->addAttribute("overviewBarShowLabelAsPercentage", $this->isOverviewBarShowLabelAsPercentage() ? 'true' : 'false');
+        $xml->addAttribute(
+            "overviewBarShowLabelAsPercentage",
+            $this->isOverviewBarShowLabelAsPercentage() ? 'true' : 'false'
+        );
         $xml->addAttribute("showFbsOverviewSpider", $this->isShowFbsOverviewSpider() ? 'true' : 'false');
         $xml->addAttribute("showFbsOverviewLeftRight", $this->isShowFbsOverviewLeftRight() ? 'true' : 'false');
         $xml->addAttribute("showFbsChartBar", $this->isShowFbsChartBar() ? 'true' : 'false');
@@ -648,7 +661,6 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
             $xml = $feedback->toXml($xml);
         }
         return $xml;
-
     }
 
     /**
@@ -656,7 +668,6 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
      */
     public function fromXML(string $xml): self
     {
-
         if ($this->getId() === 0) {
             $this->create();
             $this->createReference();
@@ -681,7 +692,9 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
         $this->setShowFeedbacksOverview($xml_attributes["showFeedbacksOverview"] == "true");
         $this->setShowFbsOverviewStatistics($xml_attributes["showFbsOverviewStatistics"] == "true");
         $this->setShowBlockTitlesDuringEvaluation($xml_attributes["showBlockTitlesDuringEvaluation"] == "true");
-        $this->setShowBlockDescriptionsDuringEvaluation($xml_attributes["showBlockDescriptionsDuringEvaluation"] == "true");
+        $this->setShowBlockDescriptionsDuringEvaluation(
+            $xml_attributes["showBlockDescriptionsDuringEvaluation"] == "true"
+        );
         $this->setShowBlockTitlesDuringFeedback($xml_attributes["showBlockTitlesDuringFeedback"] == "true");
         $this->setShowBlockDescriptionsDuringFeedback($xml_attributes["showBlockDescriptionsDuringFeedback"] == "true");
         $this->setSortRandomNrItemBlock((int) $xml_attributes["sortRandomNrItemBlock"]);

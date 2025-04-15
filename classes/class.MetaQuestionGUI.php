@@ -22,10 +22,17 @@ class MetaQuestionGUI extends BaseQuestionGUI
     protected Question $question;
     protected bool $enable_sorting = true;
 
-
     protected function createTableGUI(): ilTable2GUI
     {
-        return new MetaQuestionTableGUI($this, $this->plugin, $this->tpl, 'showContent', $this->getTypes(), $this->hasSorting(), $this->block);
+        return new MetaQuestionTableGUI(
+            $this,
+            $this->plugin,
+            $this->tpl,
+            'showContent',
+            $this->getTypes(),
+            $this->hasSorting(),
+            $this->block
+        );
     }
 
     public function initQuestionForm(string $mode = 'create'): void
@@ -113,13 +120,11 @@ class MetaQuestionGUI extends BaseQuestionGUI
         $type = $this->getTypes()[$type_id];
 
         if (!$type instanceof MetaQuestionType) {
-
             return [];
         }
 
         $post_values = $type->getValues($this->form);
         if (!is_array($post_values)) {
-
             return [];
         }
 
@@ -132,7 +137,6 @@ class MetaQuestionGUI extends BaseQuestionGUI
         }
 
         return $values;
-
     }
 
     protected function saveRequired()
@@ -150,7 +154,11 @@ class MetaQuestionGUI extends BaseQuestionGUI
             $question->update();
         }
 
-        $this->tpl->setOnScreenMessage(ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS, $this->plugin->txt('msg_question_updated'), true);
+        $this->tpl->setOnScreenMessage(
+            ilGlobalTemplateInterface::MESSAGE_TYPE_SUCCESS,
+            $this->plugin->txt('msg_question_updated'),
+            true
+        );
         $this->cancel();
     }
 
@@ -161,6 +169,5 @@ class MetaQuestionGUI extends BaseQuestionGUI
     {
         return (new MetaTypeFactory())->getTypes();
     }
-
 
 }

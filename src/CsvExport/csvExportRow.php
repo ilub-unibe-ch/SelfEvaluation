@@ -10,11 +10,12 @@ class csvExportRow
 {
     protected ?csvExportColumns $columns = null;
 
-    public function __construct(/**
-     * @var csvExportValue[]
-     */
-    protected array $values = [])
-    {
+    public function __construct(
+        /**
+         * @var csvExportValue[]
+         */
+        protected array $values = []
+    ) {
         $this->columns = new csvExportColumns();
         foreach ($this->values as $value) {
             $this->addValue($value);
@@ -59,7 +60,6 @@ class csvExportRow
     {
         return $this->columns;
     }
-
 
     public function addValuesFromArray(array $column_names, array $values): void
     {

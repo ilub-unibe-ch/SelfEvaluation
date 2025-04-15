@@ -18,8 +18,12 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
     protected int $default_value = 0;
     protected string $description = "";
 
-    public function __construct(protected ilRepositoryObjectPlugin $plugin, string $title, string $post_var, string $field_name)
-    {
+    public function __construct(
+        protected ilRepositoryObjectPlugin $plugin,
+        string $title,
+        string $post_var,
+        string $field_name
+    ) {
         parent::__construct($title, $post_var);
         $this->setFieldName($field_name);
     }
@@ -83,7 +87,10 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         $lng = $this->lng;
 
         if ($this->http->wrapper()->post()->has($this->getPostVar())) {
-            $post = $this->http->wrapper()->post()->retrieve($this->getPostVar(), $this->refinery->kindlyTo()->string());
+            $post = $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar(),
+                $this->refinery->kindlyTo()->string()
+            );
             $_POST[$this->getPostVar()] = ilUtil::stripSlashes($post);
 
             if ($this->getRequired() && trim((string) $post) === "") {

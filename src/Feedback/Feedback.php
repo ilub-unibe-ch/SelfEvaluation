@@ -74,8 +74,10 @@ class Feedback implements hasDBFields
 
     public function read(): void
     {
-        $set = $this->db->query('SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '
-            . $this->db->quote($this->getId(), 'integer'));
+        $set = $this->db->query(
+            'SELECT * FROM ' . self::TABLE_NAME . ' ' . ' WHERE id = '
+            . $this->db->quote($this->getId(), 'integer')
+        );
 
         $this->setObjectValuesFromRecord($this, $this->db->fetchObject($set));
     }
@@ -175,7 +177,6 @@ class Feedback implements hasDBFields
             $feedback = new self($db);
             $feedback->setObjectValuesFromRecord($feedback, $rec);
             $return[] = $feedback;
-
         }
 
         return $return;
@@ -209,7 +210,6 @@ class Feedback implements hasDBFields
         bool $is_overall = false
     ): int {
         for ($return = $value; $return < 100; $return++) {
-
             $q =
                 'SELECT id FROM ' . self::TABLE_NAME . ' ' . ' WHERE parent_id = ' . $db->quote($parent_id, 'integer')
                 . ' AND start_value <= ' . $db->quote($return, 'integer')
@@ -253,7 +253,6 @@ class Feedback implements hasDBFields
             if ($res && $res->id) {
                 return $return;
             }
-
         }
 
         return 100;

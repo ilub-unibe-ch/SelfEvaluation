@@ -96,8 +96,8 @@
 
                     // UI
                     cursor: (this.$.data('cursor') === true && 30)
-                    || this.$.data('cursor')
-                    || 0,
+                        || this.$.data('cursor')
+                        || 0,
                     thickness: this.$.data('thickness') || 0.35,
                     lineCap: this.$.data('linecap') || 'butt',
                     width: this.$.data('width') || 200,
@@ -231,9 +231,9 @@
         this._carve = function () {
             if (this.relative) {
                 var w = this.relativeWidth
-                    ? this.$div.parent().width()
-                    * parseInt(this.o.width) / 100
-                    : this.$div.parent().width(),
+                        ? this.$div.parent().width()
+                        * parseInt(this.o.width) / 100
+                        : this.$div.parent().width(),
                     h = this.relativeHeight
                         ? this.$div.parent().height()
                         * parseInt(this.o.height) / 100
