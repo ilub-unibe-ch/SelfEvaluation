@@ -34,7 +34,7 @@ abstract class Question implements hasDBFields
     /**
      * @var int
      */
-    protected $position = 99;
+    protected int $position = 99;
 
     /**
      * @var int
@@ -189,9 +189,9 @@ abstract class Question implements hasDBFields
 
     abstract public function getTitle(): string;
 
-    public function getPosition(): ?int
+    public function getPosition(): int
     {
-        return $this->position;
+        return (int) $this->position;
     }
 
     public function setPosition(int $position)

@@ -42,11 +42,6 @@ class Question extends BaseQuestion
      */
     protected static array $instances_for_parent_id = [];
 
-    /**
-     * @var int
-     */
-    protected $position;
-
     public function cloneTo(int $parent_id): BaseQuestion
     {
         $clone = new self($this->db);
