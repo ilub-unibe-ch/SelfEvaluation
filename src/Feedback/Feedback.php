@@ -185,9 +185,11 @@ class Feedback implements hasDBFields
     public static function _getFeedbackForPercentage(
         ilDBInterface $db,
         int $parent_id,
-        float $percentage,
+        ?float $percentage = null,
         bool $is_overall = false
     ): ?Feedback {
+        $percentage = $percentage ?? 0.0;
+
         $q = 'SELECT id FROM ' . self::TABLE_NAME . ' ' . ' WHERE parent_id = ' . $db->quote($parent_id, 'integer')
             . ' AND start_value <= ' . $db->quote($percentage, 'float')
             . ' AND end_value >= ' . $db->quote($percentage, 'float');
