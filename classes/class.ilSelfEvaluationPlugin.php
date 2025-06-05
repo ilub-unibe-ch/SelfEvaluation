@@ -39,20 +39,25 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
 
     /**
      * @description This is the easiest way to fix all locations which use a template.
-     * And this method most likely will work in ILIAS 9 and 10.
      */
     public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true): ilTemplate
     {
         return new ilTemplate(
             $this->getTemplatePath($a_template),
             $a_par1,
-            $a_par2
+            $a_par2,
+            __DIR__. '/../'
         );
     }
 
     public function getTemplatePath(string $a_template): string
     {
-        return __DIR__ . '/../templates/' . $a_template;
+        // remove a leading "default/" if it exists
+        if (str_starts_with($a_template, 'default/')) {
+            $a_template = substr($a_template, 8);
+        }
+
+        return  $a_template;
     }
 
     public function getRelativeDirectory(): string
