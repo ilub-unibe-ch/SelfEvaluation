@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ilub\plugin\SelfEvaluation\Player\Block;
 
-use ilub\plugin\SelfEvaluation\Block\Block;
 use ilObjSelfEvaluationGUI;
 use ilub\plugin\SelfEvaluation\UIHelper\FormSectionHeaderGUIFixed;
 use ilub\plugin\SelfEvaluation\Player\PlayerFormContainer;
 use ilDBInterface;
 use ilSelfEvaluationPlugin;
+use ilub\plugin\SelfEvaluation\Block\BlockType;
 
 abstract class BlockPlayerGUI
 {
@@ -17,7 +17,7 @@ abstract class BlockPlayerGUI
         protected ilDBInterface $db,
         protected ilSelfEvaluationPlugin $plugin,
         protected ilObjSelfEvaluationGUI $parent,
-        protected Block $block
+        protected BlockType $block
     ) {
     }
 
