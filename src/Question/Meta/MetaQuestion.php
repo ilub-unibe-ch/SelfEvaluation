@@ -125,8 +125,11 @@ class MetaQuestion extends BaseQuestion
         $questions = [];
         $stmt = self::_getAllInstancesForParentIdQuery($db, $parent_id);
         while ($rec = $db->fetchObject($stmt)) {
+            if (($rec->id ?? $rec->field_id ?? null) === null) {
+                continue; // skip empty records
+            }
             $question = new self($db);
-            $question->setId((int) $rec->id);
+            $question->setId((int) ($rec->id ?? $rec->field_id));
             $question->setParentId((int) $rec->parent_id);
             $question->setName((string) $rec->name);
             $question->setShortTitle((string) $rec->short_title);
