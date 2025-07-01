@@ -12,6 +12,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
         parent::__construct($this->db, $DIC["component.repository"], 'xsev');
     }
 
+
     public function getPluginName(): string
     {
         return 'SelfEvaluation';
@@ -43,10 +44,15 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
     public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true): ilTemplate
     {
         return new ilTemplate(
-            __DIR__ . '/../templates/'.$a_template,
+            $this->getTemplatePath($a_template),
             $a_par1,
             $a_par2
         );
+    }
+
+    public function getTemplatePath(string $a_template): string
+    {
+        return __DIR__ . '/../templates/' . $a_template;
     }
 
     public function getRelativeDirectory(): string
