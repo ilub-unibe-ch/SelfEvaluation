@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ilub\plugin\SelfEvaluation\Player\Block;
 
-use ilub\plugin\SelfEvaluation\Block\Block;
 use ilub\plugin\SelfEvaluation\Player\Question\QuestionPlayerGUI;
 use ilub\plugin\SelfEvaluation\Player\PlayerFormContainer;
 use ilub\plugin\SelfEvaluation\UIHelper\Scale\Scale;
@@ -13,8 +12,6 @@ use ilObjSelfEvaluation;
 
 class QuestionBlockPlayerGUI extends BlockPlayerGUI
 {
-    protected Block $block;
-
     public function getBlockForm(PlayerFormContainer $parent_form): PlayerFormContainer
     {
         $form = parent::getBlockForm($parent_form);
