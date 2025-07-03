@@ -1,46 +1,66 @@
-<script src="./node_modules/jquery/dist/jquery.js"></script>
-
 <script>
-    $(document).ready(function () {
-        var handler = function (e) {
-            var last_value = parseInt($(".multipleinput_new").last().find('input').first().val());
-            if (last_value >= 0) {
-                var next_value = 1 + last_value;
-            } else {
-                next_value = '';
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add Button Handler
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('span.add_button')) {
+                const container = document.querySelectorAll('.multipleinput_new');
+                const lastElement = container[container.length - 1];
+                const inputs = lastElement.querySelectorAll('input');
+                const lastValue = parseInt(inputs[0].value);
+
+                let nextValue = '';
+                if (!isNaN(lastValue) && lastValue >= 0) {
+                    nextValue = lastValue + 1;
+                }
+
+                const clone = lastElement.cloneNode(true);
+                document.getElementById('input_colletion').appendChild(clone);
+
+                const clonedInputs = clone.querySelectorAll('input');
+                if (clonedInputs.length > 0) {
+                    clonedInputs[0].value = nextValue;
+                    clonedInputs[clonedInputs.length - 1].value = '';
+                    clonedInputs[clonedInputs.length - 1].focus();
+                }
+
+                // Fade-in effect (optional)
+                clone.style.opacity = 0;
+                clone.style.transition = 'opacity 0.5s';
+                requestAnimationFrame(() => {
+                    clone.style.opacity = 1;
+                });
+
+                e.preventDefault();
             }
-            $('.multipleinput_new').last().clone().appendTo('#input_colletion').fadeIn(500);
-            $('.multipleinput_new').last().find('input').first().val(next_value);
-            $('.multipleinput_new').last().find('input').last().val('');
-            $('.multipleinput_new').last().find('input').last().focus();
-
-            return false;
-        };
-
-        $(document).on("click", 'span.add_button', handler);
-        $('span.delete_button').click(function () {
-            var mydiff = $(this).parent().parent().parent();
-            mydiff.find('input').each(function () {
-                $(this).val('');
-            });
-            mydiff.fadeOut(500);
-
         });
-    });
 
-
-    $(document).ready(function () {
-        var fixHelper = function (e, ui) {
-            ui.children().each(function () {
-                $(this).width($(this).width());
+        // Delete Button Handler
+        const deleteButtons = document.querySelectorAll('span.delete_button');
+        deleteButtons.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const mydiff = btn.closest('.multipleinput_new'); // Assumes three parents up
+                if (mydiff) {
+                    mydiff.querySelectorAll('input').forEach(input => input.value = '');
+                    mydiff.style.transition = 'opacity 0.5s';
+                    mydiff.style.opacity = 1;
+                    requestAnimationFrame(() => {
+                        mydiff.style.opacity = 0;
+                        setTimeout(() => {
+                            mydiff.style.display = 'none';
+                        }, 500);
+                    });
+                }
             });
-            return ui;
-        };
-
-        $("table#input_colletion tbody").sortable({
-            helper: fixHelper,
-            items: '.fsxSortable'
         });
+
+        // Sortable using vanilla JS (requires external library or custom logic)
+        const tableBody = document.querySelector('table#input_colletion tbody');
+        if (tableBody) {
+            new Sortable(tableBody, {
+                handle: '.fsxSortable', // adjust as needed
+                animation: 150,
+            });
+        }
     });
 </script>
 <style>
