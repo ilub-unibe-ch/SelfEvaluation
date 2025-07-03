@@ -35,7 +35,8 @@ class MetaQuestionTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(true);
 
         $this->setRowTemplate(
-            $this->plugin->getTemplatePath('default/Question/tpl.template_meta_question_row.html')
+            'Question/tpl.template_meta_question_row.html',
+            'public/Customizing/global/plugins/Services/Repository/RepositoryObject/SelfEvaluation/'
         );
 
         $this->initColumns($global_template);

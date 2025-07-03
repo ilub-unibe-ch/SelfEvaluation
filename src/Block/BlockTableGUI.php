@@ -37,7 +37,8 @@ class BlockTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormActionByClass('ListBlocksGUI'));
         $this->addMultiCommand('saveSorting', $this->plugin->txt('save_sorting'));
         $this->setRowTemplate(
-            $this->plugin->getDirectory() . '/templates/default/Block/tpl.template_block_row.html'
+            'Block/tpl.template_block_row.html',
+            'public/Customizing/global/plugins/Services/Repository/RepositoryObject/SelfEvaluation/'
         );
     }
 

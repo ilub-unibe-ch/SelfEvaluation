@@ -50,14 +50,25 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
         );
     }
 
-    public function getTemplatePath(string $a_template): string
+    public function getTemplatePath(string $a_template, bool $relative_from_customizing = false): string
     {
         // remove a leading "default/" if it exists
         if (str_starts_with($a_template, 'default/')) {
             $a_template = substr($a_template, 8);
         }
 
-        return  $a_template;
+        if ($relative_from_customizing) {
+            $str = __DIR__ . '/../templates/default/' . $a_template;
+            // cut everything before "Customizing/"
+            $pos = strpos($str, '/Customizing/');
+            if ($pos !== false) {
+                return '.' . substr($str, $pos);
+            }
+
+            return $str;
+        }
+
+        return $a_template;
     }
 
     public function getRelativeDirectory(): string

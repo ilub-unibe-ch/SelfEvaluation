@@ -31,7 +31,8 @@ class QuestionTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('QuestionGUI', 'question_id', null);
         $this->ctrl->setParameterByClass('QuestionGUI', 'block_id', $this->block->getId());
         $this->setRowTemplate(
-            $this->plugin->getTemplatePath('default/Question/tpl.template_question_row.html')
+            'Question/tpl.template_question_row.html',
+            'public/Customizing/global/plugins/Services/Repository/RepositoryObject/SelfEvaluation/'
         );
         $this->initColumns($global_template);
     }

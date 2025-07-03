@@ -156,7 +156,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
             // prepend alert icon
             return $this->ui_renderer->render(
                 $this->ui_factory->symbol()->icon()->custom(
-                    \ilUtil::getImagePath("standard/icon_alert.svg"),
+                    'assets/images/standard/icon_alert.svg',
                     $this->lng->txt('alert'),
                     'medium'
                 )
