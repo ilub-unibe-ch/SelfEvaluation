@@ -97,9 +97,14 @@ class Scale implements hasDBFields
         $return = [];
         $min_max = $this->getMinMaxValue();
         $max = $min_max['max'];
-
+        if ($max !=0){
         foreach ($this->units as $u) {
-            $return[(int) ($u->getValue() * 100 / $max)] = $u->getTitle() . " (" . $u->getValue() . ")";
+            $return[(int) ($u->getValue() * 100 / $max)] = $u->getTitle() . ' (' . $u->getValue() . ')';
+        }
+        } else {
+            foreach ($this->units as $u) {
+                $return[$u->getValue()] = $u->getTitle() . ' (' . $u->getValue() . ')';
+            }
         }
 
         return $return;
