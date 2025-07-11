@@ -438,7 +438,7 @@ class FeedbackGUI
         }
         $fb = null;
         foreach ($feedbacks as $fb) {
-            if ($min != false && ($min <= $fb->getStartValue() && $min != 100 && $fb->getStartValue() - $min != 0)) {
+            if ($min !== false && ($min <= $fb->getStartValue() && $min != 100 && $fb->getStartValue() - $min != 0)) {
                 $this->parseOverviewBlock('blank', $fb->getStartValue() - $min, $min);
             }
             $this->parseOverviewBlock('fb', $fb->getEndValue() - $fb->getStartValue(), $fb->getId(), $fb->getTitle());
