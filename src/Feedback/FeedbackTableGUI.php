@@ -64,6 +64,7 @@ class FeedbackTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('START', $start_sign . $obj->getStartValue() . '%');
         $this->tpl->setVariable('END', '<= ' . $obj->getEndValue() . '%');
+        $this->ctrl->setParameter($this->parent_obj, 'feedback_id', $obj->getId());
         // Actions
         $dropdown = $this->ui->factory()->dropdown()->standard([
             $this->ui->factory()->link()->standard(
