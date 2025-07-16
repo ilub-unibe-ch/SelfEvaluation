@@ -83,8 +83,6 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
 
         if ($is_in_survey && $is_not_logged_in) {
             $this->tpl->addCss($this->getPlugin()->getStyleSheetLocation('css/anonymous.css'));
-        } else {
-            $this->setLocator();
         }
         $this->tpl->addJavaScript($this->getPlugin()->getRelativeDirectory() . '/templates/js/scripts.js');
     }
@@ -94,6 +92,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
         $this->setTitleAndDescription();
         $this->displayIdentifier();
         $this->initAssets();
+        $this->setLocator();
         $this->setTabs();
     }
 
