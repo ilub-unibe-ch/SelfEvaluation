@@ -72,7 +72,7 @@ class QuestionTableGUI extends ilTable2GUI
         );
         $this->tpl->setVariable(
             'IS_INVERTED',
-            $a_set['is_inverse'] ? ilUtil::getImagePath('standard/icon_not_ok.svg') : $this->plugin->getRelativeDirectory(
+            $a_set['is_inverse'] ? ilUtil::getImagePath('standard/icon_ok.svg') : $this->plugin->getRelativeDirectory(
             ) . '/templates/images/empty.png'
         );
         // Actions
