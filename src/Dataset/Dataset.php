@@ -201,7 +201,7 @@ class Dataset implements hasDBFields
     public function getPercentageForBlock(int $block_id): ?float
     {
         $percentage_per_block = $this->getPercentagePerBlock();
-        if (!array_key_exists(1, $percentage_per_block)) {
+        if (!array_key_exists($block_id, $percentage_per_block)) {
             return null;
         }
         return $percentage_per_block[$block_id];
