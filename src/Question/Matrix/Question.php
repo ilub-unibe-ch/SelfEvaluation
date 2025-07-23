@@ -19,7 +19,7 @@ class Question extends BaseQuestion
     protected int $parent_id = 0;
     protected static array $instances_for_parent_id_array = [];
     protected static array $instances_for_parent_id = [];
-    protected int $position;
+    protected int $position = 0;
 
     public function cloneTo(int $parent_id): BaseQuestion
     {
