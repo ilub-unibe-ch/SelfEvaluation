@@ -1,83 +1,115 @@
 xsevChartToggle = function (parent_id) {
-    this.parent = $('#' + parent_id);
+    // --- kleine Helfer ---
+    const $id = (id) => document.getElementById(id);
+    const qs = (root, sel) => root ? root.querySelector(sel) : null;
+    const qsa = (root, sel) => root ? root.querySelectorAll(sel) : [];
+    const hide = (el) => {
+        if (el) el.style.display = 'none';
+    };
+    const show = (el) => {
+        if (el) el.style.display = '';
+    };
+    const addClass = (el, cls) => {
+        if (el) el.classList.add(cls);
+    };
+    const removeClass = (el, cls) => {
+        if (el) el.classList.remove(cls);
+    };
 
-    if (this.parent.find('button').length == 1) {
-        this.parent.find('.btn-group').hide();
+    this.parent = $id(parent_id);
+    if (!this.parent) return;
+
+    // Wenn nur 1 Button vorhanden ist, Button-Gruppe ausblenden und beenden
+    if (qsa(this.parent, 'button').length === 1) {
+        const btnGroup = qs(this.parent, '.btn-group');
+        hide(btnGroup);
         return;
     }
 
-    this.bar_chart_button = this.parent.find('.bar_chart_button');
-    this.spider_chart_button = this.parent.find('.spider_chart_button');
-    this.left_right_chart_button = this.parent.find('.left_right_chart_button');
+    // Buttons
+    this.bar_chart_button = qs(this.parent, '.bar_chart_button');
+    this.spider_chart_button = qs(this.parent, '.spider_chart_button');
+    this.left_right_chart_button = qs(this.parent, '.left_right_chart_button');
 
-    this.bar_chart = this.parent.find('.bar_chart');
-    this.spider_chart = this.parent.find('.spider_chart');
-    this.left_right_chart = this.parent.find('.left_right_chart');
-    var self = this;
+    // Charts
+    this.bar_chart = qs(this.parent, '.bar_chart');
+    this.spider_chart = qs(this.parent, '.spider_chart');
+    this.left_right_chart = qs(this.parent, '.left_right_chart');
 
-    this.first_button = null;
+    const self = this;
 
-    if (this.bar_chart_button.length) {
-        this.first_button = this.bar_chart_button;
-    } else if (this.spider_chart_button.length) {
-        this.first_button = this.spider_chart_button;
-    } else {
-        this.first_button = this.left_right_chart_button;
-    }
+    // Erste (vorhandene) Schaltfläche bestimmen
+    this.first_button =
+        this.bar_chart_button ||
+        this.spider_chart_button ||
+        this.left_right_chart_button ||
+        null;
 
-    this.hideIfLoaded = function (depth) {
-        if ((self.spider_chart.find("canvas").length ||
-            self.left_right_chart.find("canvas").length)
-            || depth > 100) {
+    // Warten, bis ggf. Canvas geladen ist, dann andere Charts ausblenden
+    this.hideIfLoaded = function hideIfLoaded(depth) {
+        depth = depth || 0;
 
-            if (self.spider_chart_button != self.first_button) {
-                self.spider_chart.hide();
+        const spiderHasCanvas = self.spider_chart ? qsa(self.spider_chart, 'canvas').length > 0 : false;
+        const lrHasCanvas = self.left_right_chart ? qsa(self.left_right_chart, 'canvas').length > 0 : false;
+
+        if (spiderHasCanvas || lrHasCanvas || depth > 100) {
+            // Spider nur verstecken, wenn sie nicht die erste aktive ist
+            if (self.spider_chart_button && self.first_button && self.spider_chart_button !== self.first_button) {
+                hide(self.spider_chart);
             }
-            console.log();
-            self.left_right_chart.hide();
+            hide(self.left_right_chart);
         } else {
             setTimeout(function () {
-                self.hideIfLoaded(++depth)
+                self.hideIfLoaded(depth + 1);
             }, 100);
         }
-
         return self;
     };
 
-    this.first_button.addClass("active");
+    if (this.first_button) addClass(this.first_button, 'active');
     this.hideIfLoaded(0);
 
     this.deactivateButtons = function () {
-        self.bar_chart_button.removeClass("active");
-        self.spider_chart_button.removeClass("active");
-        self.left_right_chart_button.removeClass("active");
+        removeClass(self.bar_chart_button, 'active');
+        removeClass(self.spider_chart_button, 'active');
+        removeClass(self.left_right_chart_button, 'active');
 
-        self.bar_chart.hide();
-        self.spider_chart.hide();
-        self.left_right_chart.hide();
+        hide(self.bar_chart);
+        hide(self.spider_chart);
+        hide(self.left_right_chart);
     };
 
-    this.bar_chart_button.click(function () {
-        self.deactivateButtons(self);
-        self.bar_chart_button.addClass("active");
-        self.bar_chart.show();
-        self.printFeedback();
+    // Click-Handler (mit preventDefault wie "return false")
+    if (this.bar_chart_button) {
+        this.bar_chart_button.addEventListener('click', function (e) {
+            e.preventDefault();
+            self.deactivateButtons();
+            addClass(self.bar_chart_button, 'active');
+            show(self.bar_chart);
+            // In der jQuery-Version wird printFeedback() aufgerufen.
+            // Nur ausführen, wenn vorhanden:
+            if (typeof self.printFeedback === 'function') self.printFeedback();
+            return false;
+        });
+    }
 
-        return false;
-    });
+    if (this.spider_chart_button) {
+        this.spider_chart_button.addEventListener('click', function (e) {
+            e.preventDefault();
+            self.deactivateButtons();
+            addClass(self.spider_chart_button, 'active');
+            show(self.spider_chart);
+            return false;
+        });
+    }
 
-    this.spider_chart_button.click(function () {
-        self.deactivateButtons(self);
-        self.spider_chart_button.addClass("active");
-        self.spider_chart.show();
-        return false;
-    });
-
-    this.left_right_chart_button.click(function () {
-        self.deactivateButtons(self);
-        self.left_right_chart_button.addClass("active");
-        self.left_right_chart.show();
-        return false;
-    });
+    if (this.left_right_chart_button) {
+        this.left_right_chart_button.addEventListener('click', function (e) {
+            e.preventDefault();
+            self.deactivateButtons();
+            addClass(self.left_right_chart_button, 'active');
+            show(self.left_right_chart);
+            return false;
+        });
+    }
 };
-
